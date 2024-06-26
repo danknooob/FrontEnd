@@ -7,7 +7,7 @@ const Navbar = () => {
     <>
     <div className="navbar bg-base-100 fixed top-0 left-0 w-full shadow-md">
         <div className="flex-1 flex items-center justify-between">
-          <Link to="/" className="btn btn-ghost text-2xl font-bold">ByteBazaar</Link>
+          <Link to="/landingpage" className="btn btn-ghost text-2xl font-bold">ByteBazaar</Link>
           <div className="flex space-x-4">
             <Link to="/about">
               <button className="btn btn-outline btn-primary">About Us</button>
@@ -50,10 +50,12 @@ const Navbar = () => {
               <li>
                 <Link to="/profile" className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </Link>
               </li>
-              <li><a>Settings</a></li>
+              <li>
+                <Link to="/settings" className="justify-between">
+                  Settings
+                </Link></li>
               <li><a>Logout</a></li>
             </ul>
           </div>
