@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { FaSearch, FaQuestionCircle } from 'react-icons/fa';
 import ItemContainer from '../components/ItemContainer';
 import SaasDiscounts from '../components/SaasDiscounts';
@@ -7,25 +8,63 @@ import Testimonials from '../components/Testimonials';
 
 const LandingPage = () => {
   return (
-    <>
-   
     <div className="min-h-screen bg-white flex flex-col">
-      <header className="flex justify-between items-center p-6 border-b border-gray-200">
-        <div className="text-blue-600 font-bold text-3xl">ByteBlazer</div>
-        <nav className="flex space-x-6">
-          <a href="#" className="text-gray-700 hover:text-gray-900">SaaS Marketplace</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Solutions</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Services Marketplace</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Pricing</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">About</a>
-        </nav>
-        <div className="flex space-x-4">
-          <a href="#" className="text-blue-600">Log In</a>
-          <a href="#" className="bg-blue-600 text-white px-4 py-2 rounded-md">Get started</a>
+      <div className="navbar bg-base-100 fixed top-0 left-0 w-full shadow-md">
+        <div className="flex-1 flex items-center justify-between">
+          <Link to="/" className="btn btn-ghost text-2xl font-bold">ByteBazaar</Link>
+          <div className="flex space-x-4">
+            <Link to="/about">
+              <button className="btn btn-outline btn-primary">About Us</button>
+            </Link>
+            <Link to="/login">
+              <button className="btn btn-outline btn-secondary">Login</button>
+            </Link>
+            <Link to="/join">
+              <button className="btn btn-outline btn-secondary">Join</button>
+            </Link>
+          </div>
         </div>
-      </header>
+        <div className="flex items-center space-x-4">
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div className="indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span className="badge badge-sm indicator-item">2</span>
+              </div>
+            </div>
+            <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+              <div className="card-body">
+                <span className="font-bold text-lg">2 Item</span>
+                <span className="text-info">Subtotal: $999</span>
+                <div className="card-actions">
+                  <button className="btn btn-primary btn-block">View cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              </div>
+            </div>
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </li>
+              <li><a>Settings</a></li>
+              <li><a>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-4 py-16">
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4 py-16 mt-16">
         <h1 className="text-5xl font-bold text-gray-900">The SaaS Marketplace</h1>
         <p className="text-lg text-gray-700 mt-4 max-w-3xl">
           Get <span className="font-bold">massive discounts</span> on hundreds of major SaaS products. 
@@ -69,14 +108,12 @@ const LandingPage = () => {
       <div className="mt-5 mb-20 px-10 py-20 shadow-xl">
         <ItemContainer />
       </div>
-      <Testimonials/>
+      <Testimonials />
       <div className="flex justify-center py-10">
         <SaasDiscounts />
       </div>
       <Footer />
     </div>
-    </>
-    
   );
 };
 
