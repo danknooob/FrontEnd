@@ -11,6 +11,7 @@ import SideBar from './components/SideBar';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
+import Orders from './pages/Orders';
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <Route path='/about' element={<About/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/settings' element={<SettingsPage/>}/>
+        <Route path='/orders' element={<Orders/>}/>
       </Routes>
     </BrowserRouter>
   );
