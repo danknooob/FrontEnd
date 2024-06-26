@@ -1,11 +1,12 @@
-import React from 'react';
-import ProfileHeader from './ProfileHeader';
-import ProfileDetails from './ProfileDetails';
-import OrderHistory from './OrderHistory';
+// src/pages/Profile.jsx
+import React, { useState } from 'react';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileDetails from '../components/ProfileDetails';
+import OrderHistory from '../components/OrderHistory';
 import { motion } from 'framer-motion';
 import SideBar from '../components/SideBar';
 
-const user = {
+const initialUser = {
   name: 'John Doe',
   avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
   bio: 'Passionate about online shopping!',
@@ -27,8 +28,29 @@ const orders = [
 ];
 
 const Profile = () => {
+  const [user, setUser] = useState(initialUser);
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUser(prevState => ({ ...prevState, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleEmailChange = (email) => {
+    setUser(prevState => ({ ...prevState, email }));
+  };
+
+  const handlePhoneChange = (phone) => {
+    setUser(prevState => ({ ...prevState, phone }));
+  };
+
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <SideBar />
       <motion.div
         initial={{ opacity: 0 }}
@@ -36,8 +58,8 @@ const Profile = () => {
         transition={{ duration: 0.5 }}
         className="flex-grow p-4 overflow-y-auto"
       >
-        <ProfileHeader user={user} />
-        <ProfileDetails user={user} />
+        <ProfileHeader user={user} onAvatarChange={handleAvatarChange} />
+        <ProfileDetails user={user} onEmailChange={handleEmailChange} onPhoneChange={handlePhoneChange} />
         <OrderHistory orders={orders} />
       </motion.div>
     </div>

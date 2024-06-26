@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaCog } from 'react-icons/fa';
+import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog } from 'react-icons/fa';
 import { MdMessage } from 'react-icons/md';
 import { BiAnalyse, BiSupport } from 'react-icons/bi';
 import { AiFillHeart } from 'react-icons/ai';
 import { BsCartCheck } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
-import SidebarMenu from './SidebarMenu';
 
 const routes = [
   {
@@ -78,7 +77,7 @@ const SideBar = ({ children }) => {
   };
 
   return (
-    <div className="main-container flex">
+    <div className="main-container flex h-screen">
       <motion.div
         animate={{
           width: isOpen ? '200px' : '45px',
@@ -88,7 +87,7 @@ const SideBar = ({ children }) => {
             damping: 10,
           },
         }}
-        className="sidebar bg-gray-800 text-white h-screen"
+        className="sidebar bg-gray-800 text-white min-h-screen"
       >
         <div className="top_section flex items-center justify-between p-4">
           <AnimatePresence>
