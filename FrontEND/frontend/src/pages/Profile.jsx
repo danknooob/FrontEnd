@@ -1,98 +1,45 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
-import gsap from 'gsap';
+import React from 'react';
+import ProfileHeader from './ProfileHeader';
+import ProfileDetails from './ProfileDetails';
+import OrderHistory from './OrderHistory';
+import { motion } from 'framer-motion';
+import SideBar from '../components/SideBar';
+
+const user = {
+  name: 'John Doe',
+  avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+  bio: 'Passionate about online shopping!',
+  email: 'johndoe@example.com',
+  phone: '+1234567890',
+};
+
+const orders = [
+  { id: 1, date: '2024-06-28', items: ['Laptop', 'Mouse'], total: 1200 },
+  { id: 2, date: '2024-06-27', items: ['Headphones', 'Keyboard'], total: 400 },
+  { id: 3, date: '2024-06-25', items: ['Smartphone', 'Case'], total: 800 },
+  { id: 4, date: '2024-06-24', items: ['Tablet', 'Charger'], total: 600 },
+  { id: 5, date: '2024-06-22', items: ['Monitor', 'Cables'], total: 1500 },
+  { id: 6, date: '2024-06-21', items: ['Printer', 'Ink Cartridges'], total: 300 },
+  { id: 7, date: '2024-06-18', items: ['Camera', 'Memory Card'], total: 900 },
+  { id: 8, date: '2024-06-15', items: ['External Hard Drive', 'USB Stick'], total: 200 },
+  { id: 9, date: '2024-06-12', items: ['Gaming Chair', 'Desk Lamp'], total: 700 },
+  { id: 10, date: '2024-06-10', items: ['Backpack', 'Water Bottle'], total: 50 },
+];
 
 const Profile = () => {
-  const comp = useRef(null);
-  const [showButton, setShowButton] = useState(false);
-
-  useLayoutEffect(() => {
-    const t1 = gsap.timeline();
-
-    t1.from("#intro-slider", {
-      xPercent: "-100",
-      duration: 1.3,
-      delay: 0.3,
-    })
-      .from("#title-1", {
-        opacity: 0,
-        y: "+=30",
-        duration: 0.5,
-        stagger: 0.1,
-      })
-      .from("#title-2", {
-        opacity: 0,
-        y: "+=30",
-        duration: 0.5,
-        stagger: 0.1,
-      })
-      .from("#title-3", {
-        opacity: 0,
-        y: "+=30",
-        duration: 0.5,
-        stagger: 0.1,
-      })
-      .to(["#title-1", "#title-2", "#title-3"], {
-        opacity: 0,
-        y: "-=30",
-        delay: 0.3,
-        stagger: 0.5,
-      })
-      .to("#intro-slider", {
-        xPercent: "-100",
-        duration: 1.3,
-      })
-      .from("#welcome", {
-        opacity: 0,
-        duration: 0.5,
-        onComplete: () => {
-          // Blinking animation loop
-          gsap.to("#welcome", { opacity: 0, duration: 0.5, delay: 0.5, yoyo: true, repeat: -1 });
-          // Show the button after the welcome message starts blinking
-          setShowButton(true);
-        },
-      });
-
-    return () => t1.kill();
-  }, []);
-
-  useLayoutEffect(() => {
-    if (showButton) {
-      gsap.fromTo("#btn", 
-        { x: '-100vw', opacity: 0 }, 
-        { x: 0, opacity: 1, duration: 1.3, ease: 'power1.out', rotation: 360, }
-      );
-    }
-  }, [showButton]);
-
   return (
-    <div className="relative" ref={comp}>
-      <div
-        id="intro-slider"
-        className="h-screen p-10 bg-blue-400 text-white absolute top-0 left-0 font-spaceGrotesk z-10 w-full flex flex-col gap-10 tracking-tight"
+    <div className="flex">
+      <SideBar />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex-grow p-4 overflow-y-auto"
       >
-        <h1 className="text-9xl" id="title-1">
-          Connect
-        </h1>
-        <h1 className="text-9xl" id="title-2">
-          Create
-        </h1>
-        <h1 className="text-9xl" id="title-3">
-          Conquer
-        </h1>
-      </div>
-      <div className="h-screen flex flex-col bg-yellow-200 justify-center items-center space-y-6">
-        <h1
-          id="welcome"
-          className="text-9xl font-bold text-red-400 font-spaceGrotesk"
-        >
-          Looking for Saas Solution, you are the best place!
-        </h1>
-        {showButton && (
-          <button className="text-2xl btn btn-outline btn-secondary" id="btn">
-            ClickBate
-          </button>
-        )}
-      </div>
+        <ProfileHeader user={user} />
+        <ProfileDetails user={user} />
+        <OrderHistory orders={orders} />
+      </motion.div>
     </div>
   );
 };
