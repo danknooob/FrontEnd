@@ -6,6 +6,8 @@ import ProductPage from './pages/ProductPage';
 import SignIn from './pages/SignIn'; // Import SignIn component
 import SignUp from './pages/SignUp'; // Import SignUp component
 // import Footer from './components/Footer';
+import Dashboard from './components/Dashboard'
+
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
         <Route path='/productpage' element={<ProductPage />} />
         <Route path='/sign-in' element={<SignIn />} /> {/* Route to SignIn component */}
         <Route path='/sign-up' element={<SignUp />} /> {/* Route to SignUp component */}
+        <Route path='/dashboard' element={<Dashboard/>}/>
+      
       </Routes>
     </BrowserRouter>
   );
