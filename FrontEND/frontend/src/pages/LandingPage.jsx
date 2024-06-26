@@ -16,10 +16,10 @@ const LandingPage = () => {
             <Link to="/about">
               <button className="btn btn-outline btn-primary">About Us</button>
             </Link>
-            <Link to="/login">
+            <Link to="/sign-in">
               <button className="btn btn-outline btn-secondary">Login</button>
             </Link>
-            <Link to="/join">
+            <Link to="/sign-up">
               <button className="btn btn-outline btn-secondary">Join</button>
             </Link>
           </div>
@@ -52,10 +52,10 @@ const LandingPage = () => {
             </div>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <a className="justify-between">
+                <Link to="/profile" className="justify-between">
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
               <li><a>Settings</a></li>
               <li><a>Logout</a></li>
