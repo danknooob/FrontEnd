@@ -1,57 +1,57 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog } from 'react-icons/fa';
+import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog, FaChartLine } from 'react-icons/fa'; // Added FaChartLine for dashboard icon
 import { MdMessage } from 'react-icons/md';
-import { BiAnalyse, BiSupport } from 'react-icons/bi';
+import { BiSupport } from 'react-icons/bi';
 import { AiFillHeart } from 'react-icons/ai';
 import { BsCartCheck } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const routes = [
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: <FaChartLine className="text-2xl" />, // Changed to FaChartLine for dashboard icon
+  },
+  {
     path: '/landingpage',
     name: 'Home',
-    icon: <FaHome className="text-2xl" />, // Increased icon size
+    icon: <FaHome className="text-2xl" />,
   },
   {
     path: '/messages',
     name: 'Messages',
-    icon: <MdMessage className="text-2xl" />, // Increased icon size
-  },
-  {
-    path: '/analytics',
-    name: 'Analytics',
-    icon: <BiAnalyse className="text-2xl" />, // Increased icon size
+    icon: <MdMessage className="text-2xl" />,
   },
   {
     path: '/profile',
     name: 'Profile',
-    icon: <FaUser className="text-2xl" />, // Increased icon size
+    icon: <FaUser className="text-2xl" />,
   },
   {
     path: '/orders',
     name: 'Orders',
-    icon: <BsCartCheck className="text-2xl" />, // Increased icon size
+    icon: <BsCartCheck className="text-2xl" />,
   },
   {
     path: '/settings',
     name: 'Settings',
-    icon: <FaCog className="text-2xl" />, // Increased icon size
+    icon: <FaCog className="text-2xl" />,
   },
   {
     path: '/support',
     name: 'Support',
-    icon: <BiSupport className="text-2xl" />, // Increased icon size
+    icon: <BiSupport className="text-2xl" />,
   },
   {
     path: '/billing',
     name: 'Billing',
-    icon: <FaMoneyBill className="text-2xl" />, // Increased icon size
+    icon: <FaMoneyBill className="text-2xl" />,
   },
   {
     path: '/saved',
     name: 'Saved',
-    icon: <AiFillHeart className="text-2xl" />, // Increased icon size
+    icon: <AiFillHeart className="text-2xl" />,
   },
 ];
 
@@ -106,7 +106,7 @@ const SideBar = ({ children }) => {
             )}
           </AnimatePresence>
           <div className="bars cursor-pointer">
-            <FaBars onClick={toggle} className="text-2xl" /> {/* Increased icon size */}
+            <FaBars onClick={toggle} className="text-2xl" />
           </div>
         </div>
         <section className="routes">
@@ -125,7 +125,7 @@ const SideBar = ({ children }) => {
                     initial="hidden"
                     animate="show"
                     exit="hidden"
-                    className="link_text text-lg" // Increased text size
+                    className="link_text text-lg"
                   >
                     {route.name}
                   </motion.div>

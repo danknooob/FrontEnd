@@ -1,92 +1,48 @@
-// src/App.jsx
-import React, { useState } from 'react';
-
-const reviews = [
-  { id: 1, name: 'John Doe', comment: 'Great product!', rating: 5 },
-  { id: 2, name: 'Jane Smith', comment: 'Good value for money.', rating: 4 },
-  { id: 3, name: 'Alice Johnson', comment: 'I am very satisfied with this purchase.', rating: 5 },
-  { id: 4, name: 'Michael Brown', comment: 'The quality is excellent.', rating: 4 },
-  { id: 5, name: 'Emily Davis', comment: 'Fast shipping and great packaging.', rating: 5 },
-  { id: 6, name: 'Chris Wilson', comment: 'Exceeded my expectations!', rating: 5 },
-  { id: 7, name: 'Sarah Martinez', comment: 'Highly recommend this product.', rating: 4 },
-  { id: 8, name: 'David Anderson', comment: 'Works as described.', rating: 4 },
-  { id: 9, name: 'Laura Taylor', comment: 'Very good product, will buy again.', rating: 5 },
-  { id: 10, name: 'James Moore', comment: 'Not bad, but could be better.', rating: 3 },
-];
+import React from 'react';
+import Navbar from '../components/Navbar';
+import { Link } from 'react-router-dom';
+import { AiFillCalculator } from 'react-icons/ai'; // Importing diamond icon from React Icons library
+import img from '../assets/AWS Announces Three New Database Capabilities.jpeg.jpg';
 
 const ProductPage = () => {
-  const [newComment, setNewComment] = useState('');
-  const [newRating, setNewRating] = useState(0);
-  const [userReviews, setUserReviews] = useState(reviews);
-
-  const handleAddReview = () => {
-    if (newComment && newRating) {
-      const newReview = {
-        id: userReviews.length + 1,
-        name: 'Anonymous', // You can also add a name input if needed
-        comment: newComment,
-        rating: newRating,
-      };
-      setUserReviews([...userReviews, newReview]);
-      setNewComment('');
-      setNewRating(0);
-    }
-  };
-
   return (
-    <div className="container mx-auto p-4">
-      <div className="card shadow-lg">
-        <figure className="px-10 pt-10">
-          <img src="/path/to/product-image.jpg" alt="Product" className="rounded-xl" />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">Product Name</h2>
-          <p className="text-lg">Description of the product goes here.</p>
-          <p className="text-xl font-bold">$199.99</p>
-          <div className="my-4">
-            <h3 className="text-lg font-bold">User Reviews</h3>
-            <div className="space-y-4">
-              {userReviews.map((review) => (
-                <div key={review.id} className="border p-4 rounded">
-                  <p className="font-semibold">{review.name}</p>
-                  <p>{review.comment}</p>
-                  <div className="rating">
-                    {[...Array(5)].map((_, i) => (
-                      <input
-                        key={i}
-                        type="radio"
-                        name={`rating-${review.id}`}
-                        className={`mask mask-star-2 bg-yellow-500 ${i < review.rating ? 'checked' : ''}`}
-                        readOnly
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <Navbar />
+      <div className="mx-auto p-4 flex flex-col items-center justify-center">
+        <div className="bg-white rounded-lg shadow-lg p-8 w-full ">
+          <div className="flex items-center justify-center">
+            <img src={img} alt="Product" className="w-48 h-48 mr-4 rounded-full" /> {/* Increased image size and centered */}
+            <div>
+              <h1 className="text-4xl font-bold">Google Cloud</h1> {/* Increased text size */}
+              <div className="flex items-center mt-2">
+                <span className="bg-yellow-300 text-yellow-800 text-lg font-semibold mr-2 px-3 py-1 rounded-full">7% Cashback All Cloud Services. Forever.</span> {/* Increased text size and rounded corners */}
+                <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center"> {/* Increased text size and rounded corners */}
+                  <AiFillCalculator className="mr-2" /> {/* Diamond icon */}
+                  Premium
+                </span>
+                <Link to="/deals" className="inline-block ml-4 bg-blue-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-blue-700">Redeem Deal</Link> {/* Adjusted button styling */}
+              </div>
+              <p className="text-green-700 mt-2 text-lg">Save up to $10,000/year</p> {/* Increased text size */}
+              <p className="text-gray-700 mt-4 text-lg">Google Cloud Platform enables developers to build, test and deploy applications on Google's reliable infrastructure.</p> {/* Increased text size */}
+              <div className="flex items-center mt-4">
+                <a href="https://cloud.google.com/" className="text-blue-600 hover:underline text-lg">Website</a> {/* Increased text size */}
+                <button className="ml-4 text-blue-600 hover:underline text-lg">Share</button> {/* Increased text size */}
+              </div>
+              <div className="flex items-center mt-4 space-x-3">
+                <span className="bg-gray-200 text-gray-800 text-lg font-semibold px-3 py-1 rounded-full">Dev Tools</span> {/* Increased text size and rounded corners */}
+                <span className="bg-gray-200 text-gray-800 text-lg font-semibold px-3 py-1 rounded-full">Startup Tools</span> {/* Increased text size and rounded corners */}
+                <span className="bg-gray-200 text-gray-800 text-lg font-semibold px-3 py-1 rounded-full">Featured Products</span> {/* Increased text size and rounded corners */}
+              </div>
             </div>
           </div>
-          <div className="my-4">
-            <h3 className="text-lg font-bold">Add Your Review</h3>
-            <textarea
-              className="textarea textarea-bordered w-full"
-              placeholder="Your comment"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            ></textarea>
-            <div className="rating mt-2">
-              {[...Array(5)].map((_, i) => (
-                <input
-                  key={i}
-                  type="radio"
-                  name="rating"
-                  className={`mask mask-star-2 bg-yellow-500 ${i < newRating ? 'checked' : ''}`}
-                  onClick={() => setNewRating(i + 1)}
-                />
-              ))}
-            </div>
-            <button className="btn btn-primary mt-4" onClick={handleAddReview}>
-              Add Your Comment
-            </button>
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold">Eligibility requirements</h2> {/* Increased text size */}
+            <ul className="list-disc list-inside mt-2 text-gray-700 text-lg"> {/* Increased text size */}
+              <li>Available to existing and new account signups.</li>
+              <li>NachoCard is required to redeem this discount for attribution purposes.</li>
+              <li>Discount is provided in the form of cashback directly from NachoNacho.</li>
+              <li>This deal is only available for premium members.</li>
+            </ul>
           </div>
         </div>
       </div>
