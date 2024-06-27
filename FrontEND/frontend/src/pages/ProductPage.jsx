@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import { AiFillCalculator } from 'react-icons/ai'; // Importing calculator icon from React Icons library
@@ -6,9 +6,13 @@ import img from '../assets/AWS Announces Three New Database Capabilities.jpeg.jp
 import Footer from '../components/Footer';
 
 const ProductPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top when component mounts
+  }, []);
+
   return (
     <>
-      <div className="min-h-screen flex flex-col mt-10">
+      <div className="min-h-screen flex flex-col mt-12 py-10">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-5xl"> {/* Increased max-width */}
