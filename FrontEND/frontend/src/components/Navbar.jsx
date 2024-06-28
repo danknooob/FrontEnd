@@ -17,8 +17,8 @@ const Navbar = () => {
             <Link to="/sign-in">
               <button className="btn btn-outline btn-secondary">Login</button>
             </Link>
-            <Link to="/sign-up">
-              <button className="btn btn-outline btn-secondary">Join</button>
+            <Link to="/getstarted">
+              <button className="btn btn-outline btn-secondary">Get Started</button>
             </Link>
           </div>
         </div>
@@ -57,7 +57,8 @@ const Navbar = () => {
               <li>
                 <Link to="/settings" className="justify-between">
                   Settings
-                </Link></li>
+                </Link>
+              </li>
               <li><a>Logout</a></li>
             </ul>
           </div>

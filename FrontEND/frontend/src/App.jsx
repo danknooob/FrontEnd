@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
 import Orders from './pages/Orders';
 import Pricing from './pages/Pricing';
+import GetStarted from './pages/GetStarted';
 
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
         <Route path='/settings' element={<SettingsPage/>}/>
         <Route path='/orders' element={<Orders/>}/>
         <Route path='/pricing' element={<Pricing/>}/>
+        <Route path='/getstarted' element={<GetStarted/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -1,8 +1,5 @@
-// ItemContainer.js
-
 import React from 'react';
 import Item from './Item'; // Assuming Item component is defined here
-// import { BrowserRouter as Router } from 'react-router-dom';
 import 'daisyui/dist/full.css';
 
 const ItemContainer = () => {
@@ -28,7 +25,10 @@ const ItemContainer = () => {
           </h2>
           <div className="carousel carousel-center flex items-center w-full space-x-4 bg-gray-300 rounded-box mt-6 mb-6 overflow-x-auto">
             {items.map((item) => (
-              <div key={item.id} className="carousel-item p-4 flex items-center">
+              <div
+                key={item.id}
+                className="carousel-item p-4 flex items-center hover:bg-gray-700 hover:text-white transition duration-300 ease-in-out"
+              >
                 <Item id={item.id} name={item.name} />
               </div>
             ))}
