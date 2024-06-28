@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Item from './Item'; // Assuming Item component is defined here
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 import 'daisyui/dist/full.css';
 
 const ItemContainer = () => {

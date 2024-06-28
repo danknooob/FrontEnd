@@ -12,7 +12,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col mt-12 py-10">
+      <div className="min-h-screen flex flex-col mt-12 py-15">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-5xl"> {/* Increased max-width */}
