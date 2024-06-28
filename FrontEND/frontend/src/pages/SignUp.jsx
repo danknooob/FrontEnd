@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link component
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 import image from '../assets/vecteezy_man-working-with-computer-at-desk_[1].jpg';
 import bgimg from '../assets/WhatsApp Image 2024-06-17 at 15.32.49_5c31df32.jpg';
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    role: 'seller',
     name: '',
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
-
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,15 +25,35 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
-    alert('Form Submitted Successfully!');
-  };
-
-  const handleGoogleAuth = () => {
-    // Handle Google authentication here
-    alert('Google Authentication!');
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (!res.ok) {
+        setError(data.message);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        setError(null);
+        navigate('/sign-in');
+      }
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
   };
 
   return (
@@ -149,15 +170,7 @@ const SignUp = () => {
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
-            <div className="text-center">
-              <button
-                className="btn btn-outline btn-primary flex items-center justify-center w-full"
-                onClick={handleGoogleAuth}
-              >
-                <FaGoogle className="w-6 h-6 mr-2" />
-                Continue with Google
-              </button>
-            </div>
+            <OAuth/>
 
             <p className="text-gray-600 mt-6">
               By signing up, I agree to the

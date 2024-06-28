@@ -14,6 +14,8 @@ import SettingsPage from './pages/SettingsPage';
 import Orders from './pages/Orders';
 import Pricing from './pages/Pricing';
 import GetStarted from './pages/GetStarted';
+import PrivateRoute from './components/PrivateRoute';
+import CreateListingPage from './pages/CreateListingPage';
 
 
 export default function App() {
@@ -28,11 +30,14 @@ export default function App() {
         {/* <Route path='/dashboard' element={<Dashboard/>}/> */}
         <Route path='/sidebar' element={<SideBar/>}/>
         <Route path='/about' element={<About/>}/>
-        <Route path='/profile' element={<Profile/>}/>
         <Route path='/settings' element={<SettingsPage/>}/>
         <Route path='/orders' element={<Orders/>}/>
         <Route path='/pricing' element={<Pricing/>}/>
         <Route path='/getstarted' element={<GetStarted/>}/>
+        <Route element={<PrivateRoute/>}>
+          <Route path='/profile' element={<Profile />} />
+        </Route>
+        <Route path='/createlisting' element={<CreateListingPage/>  } />
       </Routes>
     </BrowserRouter>
   );

@@ -1,7 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOutUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      // Navigate to the landing page or another appropriate route after logout
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <>
       <div className="navbar bg-base-100 fixed top-0 left-0 w-full shadow-md">
@@ -59,7 +82,11 @@ const Navbar = () => {
                   Settings
                 </Link>
               </li>
-              <li><a>Logout</a></li>
+              <li>
+                <button className="justify-between" onClick={handleSignOut}>
+                  Logout
+                </button>
+              </li>
             </ul>
           </div>
         </div>
