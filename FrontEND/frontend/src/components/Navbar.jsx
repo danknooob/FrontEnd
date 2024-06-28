@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    
     <>
-    <div className="navbar bg-base-100 fixed top-0 left-0 w-full shadow-md">
+      <div className="navbar bg-base-100 fixed top-0 left-0 w-full shadow-md">
         <div className="flex-1 flex items-center justify-between">
           <Link to="/landingpage" className="btn btn-ghost text-2xl font-bold">ByteBazaar</Link>
           <div className="flex space-x-4">
             <Link to="/about">
               <button className="btn btn-outline btn-primary">About Us</button>
+            </Link>
+            <Link to="/pricing">
+              <button className="btn btn-outline btn-primary">Pricing</button>
             </Link>
             <Link to="/sign-in">
               <button className="btn btn-outline btn-secondary">Login</button>

@@ -23,7 +23,7 @@ const ProductPage = () => {
                 <div className="flex items-center mt-2">
                   <span className="bg-yellow-300 text-yellow-800 text-lg font-semibold mr-2 px-3 py-1 rounded-full">7% Cashback All Cloud Services. Forever.</span> {/* Increased text size and rounded corners */}
                   <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center"> {/* Increased text size and rounded corners */}
-                    <AiFillCalculator className="mr-2" /> {/* Calculator icon */}
+                  💎 {/* Calculator icon */}
                     Premium
                   </span>
                   <Link to="/deals" className="inline-block ml-4 bg-blue-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-blue-700">Redeem Deal</Link> {/* Adjusted button styling */}
