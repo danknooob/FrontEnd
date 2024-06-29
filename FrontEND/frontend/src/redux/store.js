@@ -1,15 +1,18 @@
+// store.js
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import themeReducer from './theme/themeSlice';
-import productReducer from './product/productSlice'
-
+import productReducer from './product/productSlice';
+import listingsReducer from './listing/listingSlice'; // Ensure correct path
 
 const rootReducer = combineReducers({
     user: userReducer,
     product: productReducer,
+    listings: listingsReducer,
 });
+
 const persistConfig = {
     key: 'root',
     storage,
@@ -25,7 +28,5 @@ export const store = configureStore({
             serializableCheck: false,
         }),
 });
-
-
 
 export const persistor = persistStore(store);

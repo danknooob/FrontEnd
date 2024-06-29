@@ -1,431 +1,230 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { app } from '../firebase';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function CreateListingPage() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [provider, setProvider] = useState("");
-  const [logo, setLogo] = useState("");
-  const [features, setFeatures] = useState([]);
-  const [services, setServices] = useState([]);
-  const [infrastructure, setInfrastructure] = useState("");
-  const [website, setWebsite] = useState("");
-  const [devTools, setDevTools] = useState("");
-  const [startupTools, setStartupTools] = useState("");
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [eligibilityRequirements, setEligibilityRequirements] = useState([]);
-  const [offers, setOffers] = useState([]);
-  const [pricing, setPricing] = useState({
-    hourlyRate: "",
-    monthlyRate: "",
-    projectSize: "",
-  });
-  const [location, setLocation] = useState("");
-  const [tagline, setTagline] = useState("");
-  const [link, setLink] = useState("");
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Submit the form data to the backend here
-    console.log("Form submitted!");
-    console.log("Name:", name);
-    console.log("Description:", description);
-    console.log("Provider:", provider);
-    console.log("Logo:", logo);
-    console.log("Features:", features);
-    console.log("Services:", services);
-    console.log("Infrastructure:", infrastructure);
-    console.log("Website:", website);
-    console.log("Dev Tools:", devTools);
-    console.log("Startup Tools:", startupTools);
-    console.log("Featured Products:", featuredProducts);
-    console.log("Eligibility Requirements:", eligibilityRequirements);
-    console.log("Offers:", offers);
-    console.log("Pricing:", pricing);
-    console.log("Location:", location);
-    console.log("Tagline:", tagline);
-    console.log("Link:", link);
-  };
-
-  const handleArrayChange = (setter, index, value) => {
-    setter(prev => {
-      const newArr = [...prev];
-      newArr[index] = value;
-      return newArr;
+export default function CreateListing() {
+    const { currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const [files, setFiles] = useState([]);
+    const [formData, setFormData] = useState({
+        imageUrls: [],
+        name: '',
+        imageUrl: '', // Main image URL, assuming the first image as the main one
+        creditAmount: '',
+        savingsAmount: '',
+        description: '',
+        type: '', // Add type field
     });
-  };
+    const [imageUploadError, setImageUploadError] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const handleAddToArray = (setter) => {
-    setter(prev => [...prev, ""]);
-  };
+    const handleImageSubmit = (e) => {
+        if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
+            setUploading(true);
+            setImageUploadError(false);
+            const promises = [];
 
-  const handleOfferChange = (index, field, value) => {
-    setOffers(prev => {
-      const newOffers = [...prev];
-      newOffers[index][field] = value;
-      return newOffers;
-    });
-  };
+            for (let i = 0; i < files.length; i++) {
+                promises.push(storeImage(files[i]));
+            }
+            Promise.all(promises)
+                .then((urls) => {
+                    setFormData({
+                        ...formData,
+                        imageUrls: formData.imageUrls.concat(urls),
+                        imageUrl: urls[0] || '', // Assuming the first image as the main one
+                    });
+                    setImageUploadError(false);
+                    setUploading(false);
+                })
+                .catch((err) => {
+                    setImageUploadError('Image upload failed (2 MB max per image)');
+                    setUploading(false);
+                });
+        } else {
+            setImageUploadError('You can only upload up to 6 images per listing');
+            setUploading(false);
+        }
+    };
 
-  const handleAddOffer = () => {
-    setOffers(prev => [
-      ...prev,
-      {
-        cashback: "",
-        forever: false,
-        maxSavings: "",
-        premium: false,
-        redeemDeal: "",
-      },
-    ]);
-  };
+    const storeImage = async (file) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const fileName = new Date().getTime() + file.name;
+            const storageRef = ref(storage, fileName);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log(`Upload is ${progress}% done`);
+                },
+                (error) => {
+                    reject(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                }
+            );
+        });
+    };
 
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Create a Product</h1>
+    const handleRemoveImage = (index) => {
+        setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+        });
+    };
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+    const handleChange = (e) => {
+        if (e.target.type === 'text' || e.target.type === 'textarea') {
+            setFormData({
+                ...formData,
+                [e.target.id]: e.target.value,
+            });
+        }
+    };
 
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
-            Description
-          </label>
-          <textarea
-            id="description"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (formData.imageUrls.length < 1)
+                return setError('You must upload at least one image');
+            setLoading(true);
+            setError(false);
+            const res = await fetch('/api/listing/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    userRef: currentUser._id,
+                }),
+            });
+            const data = await res.json();
+            setLoading(false);
+            if (data.success === false) {
+                setError(data.message);
+            }
+            navigate(`/listing/${data._id}`);
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    };
 
-        <div className="mb-4">
-          <label htmlFor="provider" className="block text-gray-700 text-sm font-bold mb-2">
-            Provider
-          </label>
-          <input
-            type="text"
-            id="provider"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={provider}
-            onChange={(e) => setProvider(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="logo" className="block text-gray-700 text-sm font-bold mb-2">
-            Logo
-          </label>
-          <input
-            type="text"
-            id="logo"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={logo}
-            onChange={(e) => setLogo(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="features" className="block text-gray-700 text-sm font-bold mb-2">
-            Features
-          </label>
-          <ul>
-            {features.map((feature, index) => (
-              <li key={index}>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  value={feature}
-                  onChange={(e) => handleArrayChange(setFeatures, index, e.target.value)}
-                />
-              </li>
-            ))}
-            <li>
-              <button
-                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => handleAddToArray(setFeatures)}
-              >
-                Add Feature
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="services" className="block text-gray-700 text-sm font-bold mb-2">
-            Services
-          </label>
-          <ul>
-            {services.map((service, index) => (
-              <li key={index}>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  value={service}
-                  onChange={(e) => handleArrayChange(setServices, index, e.target.value)}
-                />
-              </li>
-            ))}
-            <li>
-              <button
-                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => handleAddToArray(setServices)}
-              >
-                Add Service
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="infrastructure" className="block text-gray-700 text-sm font-bold mb-2">
-            Infrastructure
-          </label>
-          <input
-            type="text"
-            id="infrastructure"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={infrastructure}
-            onChange={(e) => setInfrastructure(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="website" className="block text-gray-700 text-sm font-bold mb-2">
-            Website
-          </label>
-          <input
-            type="text"
-            id="website"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="devTools" className="block text-gray-700 text-sm font-bold mb-2">
-            Dev Tools
-          </label>
-          <input
-            type="text"
-            id="devTools"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={devTools}
-            onChange={(e) => setDevTools(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="startupTools" className="block text-gray-700 text-sm font-bold mb-2">
-            Startup Tools
-          </label>
-          <input
-            type="text"
-            id="startupTools"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={startupTools}
-            onChange={(e) => setStartupTools(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="featuredProducts" className="block text-gray-700 text-sm font-bold mb-2">
-            Featured Products
-          </label>
-          <ul>
-            {featuredProducts.map((product, index) => (
-              <li key={index}>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  value={product}
-                  onChange={(e) => handleArrayChange(setFeaturedProducts, index, e.target.value)}
-                />
-              </li>
-            ))}
-            <li>
-              <button
-                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => handleAddToArray(setFeaturedProducts)}
-              >
-                Add Featured Product
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="eligibilityRequirements" className="block text-gray-700 text-sm font-bold mb-2">
-            Eligibility Requirements
-          </label>
-          <ul>
-            {eligibilityRequirements.map((requirement, index) => (
-              <li key={index}>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  value={requirement}
-                  onChange={(e) => handleArrayChange(setEligibilityRequirements, index, e.target.value)}
-                />
-              </li>
-            ))}
-            <li>
-              <button
-                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => handleAddToArray(setEligibilityRequirements)}
-              >
-                Add Requirement
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="offers" className="block text-gray-700 text-sm font-bold mb-2">
-            Offers
-          </label>
-          <ul>
-            {offers.map((offer, index) => (
-              <li key={index}>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  placeholder="Cashback"
-                  value={offer.cashback}
-                  onChange={(e) => handleOfferChange(index, "cashback", e.target.value)}
-                />
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="checkbox"
-                  checked={offer.forever}
-                  onChange={(e) => handleOfferChange(index, "forever", e.target.checked)}
-                />
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  placeholder="Max Savings"
-                  value={offer.maxSavings}
-                  onChange={(e) => handleOfferChange(index, "maxSavings", e.target.value)}
-                />
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="checkbox"
-                  checked={offer.premium}
-                  onChange={(e) => handleOfferChange(index, "premium", e.target.checked)}
-                />
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  placeholder="Redeem Deal"
-                  value={offer.redeemDeal}
-                  onChange={(e) => handleOfferChange(index, "redeemDeal", e.target.value)}
-                />
-              </li>
-            ))}
-            <li>
-              <button
-                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={handleAddOffer}
-              >
-                Add Offer
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="pricing" className="block text-gray-700 text-sm font-bold mb-2">
-            Pricing
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="text"
-            placeholder="Hourly Rate"
-            value={pricing.hourlyRate}
-            onChange={(e) => setPricing({ ...pricing, hourlyRate: e.target.value })}
-          />
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="text"
-            placeholder="Monthly Rate"
-            value={pricing.monthlyRate}
-            onChange={(e) => setPricing({ ...pricing, monthlyRate: e.target.value })}
-          />
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="text"
-            placeholder="Project Size"
-            value={pricing.projectSize}
-            onChange={(e) => setPricing({ ...pricing, projectSize: e.target.value })}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="location" className="block text-gray-700 text-sm font-bold mb-2">
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="tagline" className="block text-gray-700 text-sm font-bold mb-2">
-            Tagline
-          </label>
-          <input
-            type="text"
-            id="tagline"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="link" className="block text-gray-700 text-sm font-bold mb-2">
-            Link
-          </label>
-          <input
-            type="text"
-            id="link"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    return (
+        <main className='p-3 max-w-4xl mx-auto'>
+            <h1 className='text-3xl font-semibold text-center my-7'>Create a Listing</h1>
+            <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
+                <div className='flex flex-col gap-4 flex-1'>
+                    <input
+                        type='text'
+                        placeholder='Name'
+                        className='border p-3 rounded-lg'
+                        id='name'
+                        maxLength='62'
+                        minLength='10'
+                        required
+                        onChange={handleChange}
+                        value={formData.name}
+                    />
+                    <textarea
+                        type='text'
+                        placeholder='Description'
+                        className='border p-3 rounded-lg'
+                        id='description'
+                        required
+                        onChange={handleChange}
+                        value={formData.description}
+                    />
+                    <input
+                        type='text'
+                        placeholder='Credit Amount'
+                        className='border p-3 rounded-lg'
+                        id='creditAmount'
+                        required
+                        onChange={handleChange}
+                        value={formData.creditAmount}
+                    />
+                    <input
+                        type='text'
+                        placeholder='Savings Amount'
+                        className='border p-3 rounded-lg'
+                        id='savingsAmount'
+                        required
+                        onChange={handleChange}
+                        value={formData.savingsAmount}
+                    />
+                    <input
+                        type='text'
+                        placeholder='Type'
+                        className='border p-3 rounded-lg'
+                        id='type'
+                        required
+                        onChange={handleChange}
+                        value={formData.type}
+                    />
+                </div>
+                <div className='flex flex-col flex-1 gap-4'>
+                    <p className='font-semibold'>
+                        Images:
+                        <span className='font-normal text-gray-600 ml-2'>
+                            The first image will be the cover (max 6)
+                        </span>
+                    </p>
+                    <div className='flex gap-4'>
+                        <input
+                            onChange={(e) => setFiles(e.target.files)}
+                            className='p-3 border border-gray-300 rounded w-full'
+                            type='file'
+                            id='images'
+                            accept='image/*'
+                            multiple
+                        />
+                        <button
+                            type='button'
+                            disabled={uploading}
+                            onClick={handleImageSubmit}
+                            className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
+                        >
+                            {uploading ? 'Uploading...' : 'Upload'}
+                        </button>
+                    </div>
+                    <p className='text-red-700 text-sm'>{imageUploadError && imageUploadError}</p>
+                    {formData.imageUrls.length > 0 &&
+                        formData.imageUrls.map((url, index) => (
+                            <div key={url} className='flex justify-between p-3 border items-center'>
+                                <img
+                                    src={url}
+                                    alt='listing image'
+                                    className='w-20 h-20 object-contain rounded-lg'
+                                />
+                                <button
+                                    type='button'
+                                    onClick={() => handleRemoveImage(index)}
+                                    className='p-3 text-red-700 rounded-lg uppercase hover:opacity-75'
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        ))}
+                    <button
+                        disabled={loading || uploading}
+                        className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
+                    >
+                        {loading ? 'Creating...' : 'Create listing'}
+                    </button>
+                    {error && <p className='text-red-700 text-sm'>{error}</p>}
+                </div>
+            </form>
+        </main>
+    );
 }
-
-export default CreateListingPage;

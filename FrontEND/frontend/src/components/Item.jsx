@@ -1,12 +1,11 @@
-// Item.jsx
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import img from '../assets/AWS Announces Three New Database Capabilities.jpeg.jpg';
 
 const Item = ({ id, name }) => {
   return (
     <div className="flex justify-center items-center">
-      <Link to={'/productpage'} className="w-96 bg-white shadow-xl rounded-xl overflow-hidden border border-gray-300">
+      <Link to={`/productpage/${id}`} className="w-96 bg-white shadow-xl rounded-xl overflow-hidden border border-gray-300">
         <figure>
           <img src={img} alt={name} className="w-full h-auto" />
         </figure>
@@ -15,9 +14,7 @@ const Item = ({ id, name }) => {
             <p className="text-black font-bold">$5k credit</p>
           </div>
           <p className="text-green-600 font-bold">Savings: $5,000</p>
-          <p className="text-gray-700 mt-2">
-            Amazon Web Services provides information technology infrastructure services to businesses in the form of web services.
-          </p>
+          <p className="text-gray-700 mt-2">{name}</p>
         </div>
       </Link>
     </div>

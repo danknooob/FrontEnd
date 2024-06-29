@@ -1,41 +1,91 @@
-import React from 'react';
-import Item from './Item'; // Assuming Item component is defined here
+import React, { useEffect, useState } from 'react';
+import Item from './Item'; // Adjust the import path for Item as needed
 import 'daisyui/dist/full.css';
 
 const ItemContainer = () => {
-  const items = [
-    { id: 1, name: 'Product 1' },
-    { id: 2, name: 'Product 2' },
-    { id: 3, name: 'Product 3' },
-    { id: 4, name: 'Product 4' },
-    { id: 5, name: 'Product 5' },
-    { id: 6, name: 'Product 6' },
-    { id: 7, name: 'Product 7' },
-    { id: 8, name: 'Product 8' },
-    { id: 9, name: 'Product 9' },
-    { id: 10, name: 'Product 10' },
-  ];
+  const [featuredListings, setFeaturedListings] = useState([]);
+  const [saleListings, setSaleListings] = useState([]);
+  const [rentListings, setRentListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchListings = async (type, setListings) => {
+      try {
+        const res = await fetch(`/api/listing/get?type=${type}`);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch ${type} listings`);
+        }
+        const data = await res.json();
+        console.log(`${type} listings:`, data);
+        setListings(data);
+      } catch (error) {
+        console.error(`Error fetching ${type} listings:`, error);
+        setError(`Failed to fetch ${type} listings`);
+      }
+    };
+
+    setLoading(true);
+    fetchListings('featured', setFeaturedListings);
+    fetchListings('sale', setSaleListings);
+    fetchListings('rent', setRentListings);
+    setLoading(false);
+  }, []);
+
+  let content;
+
+  if (loading) {
+    content = <p>Loading...</p>;
+  } else if (error) {
+    content = <p>{error}</p>;
+  } else {
+    content = (
+      <>
+        {featuredListings.length > 0 && (
+          <div className="my-6">
+            <h2 className="text-2xl font-semibold text-slate-600">Featured Listings</h2>
+            <div className="flex flex-wrap gap-4">
+              {featuredListings.map((listing) => (
+                <Item key={listing._id} id={listing._id} name={listing.name} />
+              ))}
+            </div>
+          </div>
+        )}
+        {saleListings.length > 0 && (
+          <div className="my-6">
+            <h2 className="text-2xl font-semibold text-slate-600">Listings for Sale</h2>
+            <div className="flex flex-wrap gap-4">
+              {saleListings.map((listing) => (
+                <Item key={listing._id} id={listing._id} name={listing.name} />
+              ))}
+            </div>
+          </div>
+        )}
+        {rentListings.length > 0 && (
+          <div className="my-6">
+            <h2 className="text-2xl font-semibold text-slate-600">Listings for Rent</h2>
+            <div className="flex flex-wrap gap-4">
+              {rentListings.map((listing) => (
+                <Item key={listing._id} id={listing._id} name={listing.name} />
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
 
   return (
-    <>
-      <div className="bg-white py-5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Our Featured Items
-          </h2>
-          <div className="carousel carousel-center flex items-center w-full space-x-4 bg-gray-300 rounded-box mt-6 mb-6 overflow-x-auto">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="carousel-item p-4 flex items-center hover:bg-gray-700 hover:text-white transition duration-300 ease-in-out"
-              >
-                <Item id={item.id} name={item.name} />
-              </div>
-            ))}
-          </div>
+    <div className="bg-white py-5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          Our Listings
+        </h2>
+        <div className="mt-6 mb-6">
+          {content}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
