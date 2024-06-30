@@ -16,6 +16,7 @@ import Pricing from './pages/Pricing';
 import GetStarted from './pages/GetStarted';
 import PrivateRoute from './components/PrivateRoute';
 import CreateListingPage from './pages/CreateListingPage';
+import ItemContainer from './components/ItemContainer';
 
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
           <Route path='/profile' element={<Profile />} />
         </Route>
         <Route path='/createlisting' element={<CreateListingPage/>  } />
+        <Route path='/itemcontainer' element={<ItemContainer/> } />
       </Routes>
     </BrowserRouter>
   );

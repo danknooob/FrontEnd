@@ -1,6 +1,7 @@
 import Listing from '../models/listing.model.js';
 import { errorHandler } from '../utils/error.js';
 
+// Create a new listing
 export const createListing = async(req, res, next) => {
     try {
         const listing = await Listing.create(req.body);
@@ -10,6 +11,7 @@ export const createListing = async(req, res, next) => {
     }
 };
 
+// Delete a listing
 export const deleteListing = async(req, res, next) => {
     const listing = await Listing.findById(req.params.id);
 
@@ -29,6 +31,7 @@ export const deleteListing = async(req, res, next) => {
     }
 };
 
+// Update a listing
 export const updateListing = async(req, res, next) => {
     const listing = await Listing.findById(req.params.id);
     if (!listing) {
@@ -49,6 +52,7 @@ export const updateListing = async(req, res, next) => {
     }
 };
 
+// Get a single listing
 export const getListing = async(req, res, next) => {
     try {
         const listing = await Listing.findById(req.params.id);
@@ -61,77 +65,25 @@ export const getListing = async(req, res, next) => {
     }
 };
 
-// export const getListings = async(req, res, next) => {
-//     try {
-//         const limit = parseInt(req.query.limit) || 12;
-//         const startIndex = parseInt(req.query.startIndex) || 0;
-//         let offer = req.query.offer;
-
-//         if (offer === undefined || offer === 'false') {
-//             offer = { $in: [false, true] };
-//         }
-
-//         let furnished = req.query.furnished;
-
-//         if (furnished === undefined || furnished === 'false') {
-//             furnished = { $in: [false, true] };
-//         }
-
-//         let parking = req.query.parking;
-
-//         if (parking === undefined || parking === 'false') {
-//             parking = { $in: [false, true] };
-//         }
-
-//         let type = req.query.type;
-
-//         if (type === undefined || type === 'all') {
-//             type = { $in: ['sale', 'rent'] };
-//         }
-
-//         const searchTerm = req.query.searchTerm || '';
-
-//         const sort = req.query.sort || 'createdAt';
-
-//         const order = req.query.order || 'desc';
-
-//         const listings = await Listing.find({
-//                 name: { $regex: searchTerm, $options: 'i' },
-//                 offer,
-//                 furnished,
-//                 parking,
-//                 type,
-//             })
-//             .sort({
-//                 [sort]: order
-//             })
-//             .limit(limit)
-//             .skip(startIndex);
-
-//         return res.status(200).json(listings);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// our project getlistings controller 
+// Get multiple listings
 export const getListings = async(req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 12;
         const startIndex = parseInt(req.query.startIndex) || 0;
         const searchTerm = req.query.searchTerm || '';
-        const sort = req.query.sort || 'createdAt';
-        const order = req.query.order || 'desc';
+        const type = req.query.type || ''; // Get type from query parameters
 
-        const listings = await Listing.find({
-                title: { $regex: searchTerm, $options: 'i' },
-                availability: 'Available', // Consider only available listings
-                category: req.query.category || { $in: ['Software', 'Tools', 'Courses', 'Services', 'Books', 'Other'] },
-                dealType: req.query.dealType || { $in: ['Lifetime Deal', 'Yearly Subscription', 'Monthly Subscription'] },
-            })
-            .sort({
-                [sort]: order
-            })
+        const query = {
+            name: { $regex: searchTerm, $options: 'i' },
+            availability: 'Available', // Consider only available listings
+        };
+
+        if (type) {
+            query.type = type; // Add type to query if provided
+        }
+
+        const listings = await Listing.find(query)
+            .sort({ createdAt: 'desc' })
             .limit(limit)
             .skip(startIndex);
 

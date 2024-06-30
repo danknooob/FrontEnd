@@ -11,11 +11,11 @@ export default function CreateListing() {
     const [formData, setFormData] = useState({
         imageUrls: [],
         name: '',
-        imageUrl: '', // Main image URL, assuming the first image as the main one
+        imageUrl: '',
         creditAmount: '',
         savingsAmount: '',
         description: '',
-        type: '', // Add type field
+        type: '',
     });
     const [imageUploadError, setImageUploadError] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -36,7 +36,7 @@ export default function CreateListing() {
                     setFormData({
                         ...formData,
                         imageUrls: formData.imageUrls.concat(urls),
-                        imageUrl: urls[0] || '', // Assuming the first image as the main one
+                        imageUrl: urls[0] || '',
                     });
                     setImageUploadError(false);
                     setUploading(false);
