@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog, FaChartLine } from 'react-icons/fa'; // Added FaChartLine for dashboard icon
+import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog, FaChartLine, FaSearch } from 'react-icons/fa'; // Added FaSearch for search icon
 import { MdMessage } from 'react-icons/md';
 import { BiSupport } from 'react-icons/bi';
 import { AiFillHeart } from 'react-icons/ai';
@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    icon: <FaChartLine className="text-2xl" />, // Changed to FaChartLine for dashboard icon
+    icon: <FaChartLine className="text-2xl" />,
   },
   {
     path: '/landingpage',
@@ -52,6 +52,11 @@ const routes = [
     path: '/saved',
     name: 'Saved',
     icon: <AiFillHeart className="text-2xl" />,
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    icon: <FaSearch className="text-2xl" />, // Added FaSearch for search icon
   },
 ];
 

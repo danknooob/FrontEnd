@@ -6,6 +6,10 @@ import { errorHandler } from '../utils/error.js';
 export const signup = async(req, res, next) => {
     const { name, username, email, password, confirmPassword } = req.body;
 
+    if (!password) {
+        return next(errorHandler(400, 'Password must not be empty!'));
+    }
+
     if (password !== confirmPassword) {
         return next(errorHandler(400, 'Passwords do not match!'));
     }
