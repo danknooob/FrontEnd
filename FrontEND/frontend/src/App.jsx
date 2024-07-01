@@ -17,6 +17,8 @@ import GetStarted from './pages/GetStarted';
 import PrivateRoute from './components/PrivateRoute';
 import CreateListingPage from './pages/CreateListingPage';
 import ItemContainer from './components/ItemContainer';
+import Listing from './pages/Listing';
+import Search from './pages/Search';
 
 
 export default function App() {
@@ -30,6 +32,7 @@ export default function App() {
         <Route path='/sign-up' element={<SignUp />} /> {/* Route to SignUp component */}
         {/* <Route path='/dashboard' element={<Dashboard/>}/> */}
         <Route path='/sidebar' element={<SideBar/>}/>
+        <Route path='/search' element={<Search />} />
         <Route path='/about' element={<About/>}/>
         <Route path='/settings' element={<SettingsPage/>}/>
         <Route path='/orders' element={<Orders/>}/>
@@ -39,6 +42,7 @@ export default function App() {
           <Route path='/profile' element={<Profile />} />
         </Route>
         <Route path='/createlisting' element={<CreateListingPage/>  } />
+        <Route path='/listing/:listingId' element={<Listing />} />
         <Route path='/itemcontainer' element={<ItemContainer/> } />
       </Routes>
     </BrowserRouter>

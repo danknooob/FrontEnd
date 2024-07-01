@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const ServiceProviderSchema = new Schema({
+const ServiceProviderSchema = new mongoose.Schema({
     name: { type: String, required: true },
     imageUrl: { type: String, required: true },
     services: [{ type: String }],
@@ -12,9 +12,18 @@ const ServiceProviderSchema = new Schema({
 
 // Define schema for product
 const ProductSchema = new Schema({
-    name: { type: String, required: true },
-    imageUrl: { type: String, required: true },
-    cashbackOffer: { type: String, required: true },
+    name: {
+        type: String,
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    cashbackOffer: {
+        type: String,
+        required: true
+    },
     description: { type: String, required: true },
     savings: { type: String, required: true },
     eligibilityRequirements: [{ type: String }],

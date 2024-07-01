@@ -5,23 +5,62 @@ const listingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    imageUrl: {
-        type: String,
-        required: true,
-    },
-    creditAmount: {
-        type: String,
-        required: true,
-    },
-    savingsAmount: {
-        type: String,
-        required: true,
-    },
     description: {
         type: String,
         required: true,
     },
+    address: {
+        type: String,
+        required: true,
+    },
+    regularPrice: {
+        type: Number,
+        required: true,
+    },
+    discountPrice: {
+        type: Number,
+        required: true,
+    },
+    bathrooms: {
+        type: Number,
+        required: true,
+    },
+    bedrooms: {
+        type: Number,
+        required: true,
+    },
+    savings: {
+        type: String,
+        required: true
+    },
+    features: [{
+        type: String
+    }],
+    furnished: {
+        type: Boolean,
+        required: true,
+    },
+    website: {
+        type: String,
+        required: true
+    },
+    parking: {
+        type: Boolean,
+        required: true,
+    },
     type: {
+        type: String,
+        required: true,
+    },
+    offer: {
+        type: Boolean,
+        required: true,
+    },
+    imageUrls: {
+        type: Array,
+        required: true,
+    },
+    userRef: {
         type: String,
         required: true,
     },

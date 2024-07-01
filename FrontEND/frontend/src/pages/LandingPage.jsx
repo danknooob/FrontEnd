@@ -10,43 +10,43 @@ import SaasDiscounts from '../components/SaasDiscounts';
 import Footer from '../components/Footer';
 import Testimonials from '../components/Testimonials';
 import Navbar from '../components/Navbar';
-// import ListingItem from '../components/ListingItem'; // Assuming you have a ListingItem component
-
+import ListingItem from '../components/ListingItem';
 
 const LandingPage = () => {
-  const [offerListings, setOfferListings] = useState([]);
+  const [featuredListings, setFeaturedListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
-  const [rentListings, setRentListings] = useState([]);
+  const [communicationListings, setCommunicationListings] = useState([]);
   SwiperCore.use([Navigation]);
-  console.log(offerListings);
+
   useEffect(() => {
-    const fetchOfferListings = async () => {
+    const fetchFeaturedListings = async () => {
       try {
         const res = await fetch('/api/listing/get?featured=true&limit=4');
         if (res.ok) {
           const data = await res.json();
-          setOfferListings(data);
-          fetchRentListings();
+          console.log(data);
+          setFeaturedListings(data);
+          fetchCommunicationListings();
         } else {
           throw new Error('Failed to fetch featured listings');
         }
       } catch (error) {
-        console.error('Error fetching offer listings:', error);
+        console.error('Error fetching featured listings:', error);
       }
     };
 
-    const fetchRentListings = async () => {
+    const fetchCommunicationListings = async () => {
       try {
-        const res = await fetch('/api/listing/get?type=rent&limit=4');
+        const res = await fetch('/api/listing/get?type=communication&limit=4');
         if (res.ok) {
           const data = await res.json();
-          setRentListings(data);
+          setCommunicationListings(data);
           fetchSaleListings();
         } else {
-          throw new Error('Failed to fetch rent listings');
+          throw new Error('Failed to fetch communication listings');
         }
       } catch (error) {
-        console.error('Error fetching rent listings:', error);
+        console.error('Error fetching communication listings:', error);
       }
     };
 
@@ -64,7 +64,7 @@ const LandingPage = () => {
       }
     };
 
-    fetchOfferListings();
+    fetchFeaturedListings();
   }, []);
 
   return (
@@ -102,7 +102,7 @@ const LandingPage = () => {
 
       {/* Swiper for featured listings */}
       <Swiper navigation>
-        {offerListings.map((listing) => (
+        {featuredListings.map((listing) => (
           <SwiperSlide key={listing._id}>
             <div
               style={{
@@ -115,17 +115,17 @@ const LandingPage = () => {
         ))}
       </Swiper>
 
-      {/* Listing sections for offer, sale, and rent */}
+      {/* Listing sections for Featured, sale, and rent */}
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10'>
-        {/* Offer Listings */}
-        {offerListings.length > 0 && (
+        {/* Featured Listings */}
+        {featuredListings.length > 0 && (
           <div>
             <div className='my-3'>
               <h2 className='text-2xl font-semibold text-slate-600'>Featured Listings</h2>
-              <Link className='text-sm text-blue-800 hover:underline' to={'/search?offer=true'}>Show more offers</Link>
+              <Link className='text-sm text-blue-800 hover:underline' to={'/search?featured=true'}>Show more Featured</Link>
             </div>
             <div className='flex flex-wrap gap-4'>
-              {offerListings.map((listing) => (
+              {featuredListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
@@ -133,14 +133,14 @@ const LandingPage = () => {
         )}
 
         {/* Rent Listings */}
-        {rentListings.length > 0 && (
+        {communicationListings.length > 0 && (
           <div>
             <div className='my-3'>
-              <h2 className='text-2xl font-semibold text-slate-600'>Recent places for rent</h2>
-              <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=rent'}>Show more places for rent</Link>
+              <h2 className='text-2xl font-semibold text-slate-600'>Communication Products</h2>
+              <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=communication'}>Show more communication products</Link>
             </div>
             <div className='flex flex-wrap gap-4'>
-              {rentListings.map((listing) => (
+              {communicationListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
             </div>
@@ -151,8 +151,8 @@ const LandingPage = () => {
         {saleListings.length > 0 && (
           <div>
             <div className='my-3'>
-              <h2 className='text-2xl font-semibold text-slate-600'>Recent places for sale</h2>
-              <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=sale'}>Show more places for sale</Link>
+              <h2 className='text-2xl font-semibold text-slate-600'>Recent Sale products</h2>
+              <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=sale'}>Show more sale products</Link>
             </div>
             <div className='flex flex-wrap gap-4'>
               {saleListings.map((listing) => (
