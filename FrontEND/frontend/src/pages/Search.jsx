@@ -128,8 +128,12 @@ export default function Search() {
   };
 
   return (
+    
     <>
+    <div className='py-5 '>
       <Navbar />
+    </div>
+      
       <div className='flex flex-col md:flex-row p-4'>
         <div className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
