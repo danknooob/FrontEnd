@@ -93,21 +93,24 @@ const Cart = () => {
             <SideBar />
             <div className="flex-1 container mx-auto p-4 overflow-y-auto h-full">
                 <h1 className="text-3xl font-bold mb-4 text-gray-800 py-5">My Cart</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="mt-4 text-right">
+                    <h2 className="text-2xl font-bold text-gray-800">Total: ${totalAmount.toFixed(2)}</h2>
+                    <Link to="/checkout">
+                        <button className="btn btn-outline btn-blue-500 text-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600">
+                            Checkout
+                        </button>
+                    </Link>
+                </div>
+                <ul className="divide-y divide-gray-200">
                     {cartItems.map(item => (
-                        <div
-                            key={item.id}
-                            className="bg-gray-200 p-3 rounded-lg shadow-md w-full md:w-72"
-                        >
-                            <Link to={`/product/${item.id}`}>
-                                <img src={img1} alt={item.name} className="w-full h-36 object-cover rounded-lg mb-2" />
-                            </Link>
-                            <Link to={`/product/${item.id}`}>
+                        <li key={item.id} className="py-4 flex">
+                            <div className="flex-shrink-0">
+                                <img className="h-12 w-12 rounded-lg" src={img1} alt={item.name} />
+                            </div>
+                            <div className="ml-3">
                                 <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-                            </Link>
-                            <p className="text-gray-800">${item.price.toFixed(2)}</p>
-                            <div className="mt-auto flex justify-between items-center">
-                                <div className="flex items-center">
+                                <p className="text-gray-800">${item.price.toFixed(2)}</p>
+                                <div className="mt-2 flex">
                                     <button
                                         onClick={() => dispatch(subtractItem(item.id))}
                                         className="btn btn-outline btn-red-500 text-red-500 px-2 py-1 rounded-lg mr-2"
@@ -121,28 +124,21 @@ const Cart = () => {
                                     >
                                         +
                                     </button>
+                                    <button
+                                        onClick={() => dispatch(deleteItem(item.id))}
+                                        className="btn btn-outline btn-red-700 text-red-700 px-3 py-2 rounded-lg ml-2 flex items-center"
+                                    >
+                                        <FaTrash className="ml-1" />
+                                    </button>
                                 </div>
-                                <button
-                                    onClick={() => dispatch(deleteItem(item.id))}
-                                    className="btn btn-outline btn-red-700 text-red-700 px-3 py-2 rounded-lg flex items-center"
-                                >
-                                    <FaTrash />
-                                </button>
                             </div>
-                        </div>
+                        </li>
                     ))}
-                </div>
-                <div className="mt-4 text-right">
-                    <h2 className="text-2xl font-bold text-gray-800">Total: ${totalAmount.toFixed(2)}</h2>
-                    <Link to="/checkout">
-                        <button className="btn btn-outline btn-blue-500 text-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600">
-                            Checkout
-                        </button>
-                    </Link>
-                </div>
+                </ul>
             </div>
         </div>
     );
 };
 
 export default Cart;
+
