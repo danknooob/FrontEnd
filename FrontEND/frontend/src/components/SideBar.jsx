@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog, FaChartLine, FaSearch } from 'react-icons/fa'; // Added FaSearch for search icon
+import { FaBars, FaHome, FaMoneyBill, FaUser, FaCog, FaChartLine, FaSearch, FaShoppingCart } from 'react-icons/fa'; // Added FaShoppingCart for cart icon
 import { MdMessage } from 'react-icons/md';
 import { BiSupport } from 'react-icons/bi';
 import { AiFillHeart } from 'react-icons/ai';
@@ -56,7 +56,12 @@ const routes = [
   {
     path: '/search',
     name: 'Search',
-    icon: <FaSearch className="text-2xl" />, // Added FaSearch for search icon
+    icon: <FaSearch className="text-2xl" />,
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    icon: <FaShoppingCart className="text-2xl" />, // Added FaShoppingCart for cart icon
   },
 ];
 

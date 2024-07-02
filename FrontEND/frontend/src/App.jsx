@@ -19,6 +19,7 @@ import CreateListingPage from './pages/CreateListingPage';
 import ItemContainer from './components/ItemContainer';
 import Listing from './pages/Listing';
 import Search from './pages/Search';
+import Cart from './components/Cart';
 
 
 export default function App() {
@@ -44,6 +45,7 @@ export default function App() {
         <Route path='/createlisting' element={<CreateListingPage/>  } />
         <Route path='/listing/:listingId' element={<Listing />} />
         <Route path='/itemcontainer' element={<ItemContainer/> } />
+        <Route path='/cart' element={<Cart/> } />
       </Routes>
     </BrowserRouter>
   );

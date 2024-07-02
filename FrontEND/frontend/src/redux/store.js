@@ -6,11 +6,13 @@ import storage from 'redux-persist/lib/storage';
 import themeReducer from './theme/themeSlice';
 import productReducer from './product/productSlice';
 import listingsReducer from './listing/listingSlice'; // Ensure correct path
+import cartReducer from './cart/cartSlice';
 
 const rootReducer = combineReducers({
     user: userReducer,
     product: productReducer,
     listings: listingsReducer,
+    cart: cartReducer,
 });
 
 const persistConfig = {

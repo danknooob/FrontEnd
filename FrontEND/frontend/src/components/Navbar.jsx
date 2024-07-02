@@ -17,8 +17,7 @@ const Navbar = () => {
         return;
       }
       dispatch(deleteUserSuccess(data));
-      // Navigate to the landing page or another appropriate route after logout
-      navigate('/');
+      navigate('/landingpage');
     } catch (error) {
       console.error('Error signing out:', error);
       dispatch(deleteUserFailure(error.message));
@@ -60,7 +59,7 @@ const Navbar = () => {
                 <span className="font-bold text-lg">2 Item</span>
                 <span className="text-info">Subtotal: $999</span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">View cart</button>
+                  <Link to="/cart" className="btn btn-primary btn-block">View cart</Link>
                 </div>
               </div>
             </div>
