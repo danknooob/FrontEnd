@@ -1,48 +1,66 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../redux/product/productSlice.js'; // Adjust path as needed
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
 const ProductPage = () => {
-  const dispatch = useDispatch();
-  const productState = useSelector((state) => state.product);
-  const { loading, products, error } = productState;
+  const { listingId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [listing, setListing] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    const fetchListing = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/listing/get/${listingId}`);
+        const data = await res.json();
+        if (data.success === false) {
+          setError(true);
+          setLoading(false);
+          return;
+        }
+        setListing(data);
+        setLoading(false);
+        setError(false);
+      } catch (error) {
+        setError(true);
+        setLoading(false);
+      }
+    };
+    fetchListing();
     window.scrollTo(0, 0); // Scroll to the top when component mounts
-  }, [dispatch]);
+  }, [listingId]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: Something went wrong</div>;
   }
 
-  // Render product details using products array
+  // Render product details using listing data
   return (
     <>
       <div className="min-h-screen flex flex-col mt-12 py-15">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-5xl">
-            {products.map((product) => (
-              <div key={product.id}>
+            {listing && (
+              <div>
                 <div className="flex items-center justify-center">
                   <img
-                    src={product.imageUrl}
+                    src={listing.imageUrl}
                     alt="Product"
                     className="w-48 h-48 mr-4 rounded-full"
                   />
                   <div>
-                    <h1 className="text-4xl font-bold">{product.name}</h1>
+                    <h1 className="text-4xl font-bold">{listing.name}</h1>
                     <div className="flex items-center mt-2">
                       <span className="bg-yellow-300 text-yellow-800 text-lg font-semibold mr-2 px-3 py-1 rounded-full">
-                        {product.cashbackOffer}
+                        {listing.cashbackOffer}
                       </span>
                       <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center">
                         💎 Premium
@@ -55,14 +73,14 @@ const ProductPage = () => {
                       </Link>
                     </div>
                     <p className="text-green-700 mt-2 text-lg">
-                      Save up to {product.savings}
+                      Save up to {listing.savings}
                     </p>
                     <p className="text-gray-700 mt-4 text-lg">
-                      {product.description}
+                      {listing.description}
                     </p>
                     <div className="flex items-center mt-4">
                       <a
-                        href={product.website}
+                        href={listing.website}
                         className="text-blue-600 hover:underline text-lg"
                       >
                         Website
@@ -72,7 +90,7 @@ const ProductPage = () => {
                       </button>
                     </div>
                     <div className="flex items-center mt-4 space-x-3">
-                      {product.tags.map((tag, index) => (
+                      {listing.tags.map((tag, index) => (
                         <span
                           key={index}
                           className="bg-gray-200 text-gray-800 text-lg font-semibold px-3 py-1 rounded-full"
@@ -88,7 +106,7 @@ const ProductPage = () => {
                     Eligibility requirements
                   </h2>
                   <ul className="list-disc list-inside mt-2 text-gray-700 text-base">
-                    {product.eligibilityRequirements.map(
+                    {listing.eligibilityRequirements.map(
                       (requirement, index) => (
                         <li key={index}>{requirement}</li>
                       )
@@ -97,41 +115,41 @@ const ProductPage = () => {
                 </div>
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold">
-                    What is {product.name}?
+                    What is {listing.name}?
                   </h2>
                   <p className="text-base text-gray-700 mt-2">
-                    {product.description}
+                    {listing.description}
                   </p>
                   <ul className="list-disc list-inside mt-2 text-gray-700 text-base">
-                    {product.features.map((feature, index) => (
+                    {listing.features.map((feature, index) => (
                       <li key={index}>{feature}</li>
                     ))}
                   </ul>
                 </div>
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold">
-                    Key benefits of using {product.name}
+                    Key benefits of using {listing.name}
                   </h2>
                   <ul className="list-disc list-inside mt-2 text-gray-700 text-base">
-                    {product.benefits.map((benefit, index) => (
+                    {listing.benefits.map((benefit, index) => (
                       <li key={index}>{benefit}</li>
                     ))}
                   </ul>
                 </div>
                 <div className="bg-yellow-300 rounded-lg p-8 mt-10 text-center">
                   <h2 className="text-4xl font-bold text-blue-900">
-                    {product.discountTitle}
+                    {listing.discountTitle}
                   </h2>
                   <div className="flex justify-center items-center mt-4 space-x-4">
                     <span className="bg-white text-black font-semibold py-2 px-4 rounded-full">
-                      {product.cashbackOffer}
+                      {listing.cashbackOffer}
                     </span>
                     <span className="bg-green-600 text-white font-semibold py-2 px-4 rounded-full">
-                      {product.savings}
+                      {listing.savings}
                     </span>
                   </div>
                   <p className="text-black mt-4">
-                    {product.discountDescription}
+                    {listing.discountDescription}
                   </p>
                   <Link
                     to="/deals"
@@ -150,7 +168,7 @@ const ProductPage = () => {
                     Service providers who can help you with this product
                   </h2>
                   <div className="flex justify-between mt-6">
-                    {product.serviceProviders.map((provider, index) => (
+                    {listing.serviceProviders.map((provider, index) => (
                       <div
                         key={index}
                         className="bg-blue-50 rounded-lg p-4 w-1/2 mr-2"
@@ -189,7 +207,7 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
         <Footer />

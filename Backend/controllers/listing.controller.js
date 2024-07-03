@@ -167,8 +167,6 @@ export const getListing = async(req, res, next) => {
     try {
         const listingId = req.params.id;
         console.log("Listing ID:", listingId);
-
-        // Check if listingId is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(listingId)) {
             console.error('Invalid listing ID format');
             return next(errorHandler(400, 'Invalid listing ID format'));
