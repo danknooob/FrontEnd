@@ -10,7 +10,7 @@ const ServiceProviderSchema = new mongoose.Schema({
     link: { type: String, required: true },
 });
 
-// Define schema for product
+
 const ProductSchema = new Schema({
     name: {
         type: String,

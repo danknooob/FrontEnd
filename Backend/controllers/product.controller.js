@@ -75,7 +75,8 @@ export const getProducts = async(req, res, next) => {
                 dealType: req.query.dealType || { $in: ['Lifetime Deal', 'Yearly Subscription', 'Monthly Subscription'] },
             })
             .sort({
-                [sort]: order })
+                [sort]: order
+            })
             .limit(limit)
             .skip(startIndex);
 

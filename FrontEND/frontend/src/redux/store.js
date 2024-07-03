@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import themeReducer from './theme/themeSlice';
 import productReducer from './product/productSlice';
-import listingsReducer from './listing/listingSlice'; // Ensure correct path
+import listingsReducer from './listing/listingSlice';
 import cartReducer from './cart/cartSlice';
 
 const rootReducer = combineReducers({
