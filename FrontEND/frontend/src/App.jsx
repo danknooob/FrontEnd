@@ -20,6 +20,7 @@ import ItemContainer from './components/ItemContainer';
 import Listing from './pages/Listing';
 import Search from './pages/Search';
 import Cart from './components/Cart';
+import CreateServiceProvider from './components/CreateServiceProvider';
 
 
 export default function App() {
@@ -46,6 +47,7 @@ export default function App() {
         <Route path='/listing/:listingId' element={<Listing />} />
         <Route path='/itemcontainer' element={<ItemContainer/> } />
         <Route path='/cart' element={<Cart/> } />
+        <Route path='/serviceprovider' element={<CreateServiceProvider/>} />
       </Routes>
     </BrowserRouter>
   );

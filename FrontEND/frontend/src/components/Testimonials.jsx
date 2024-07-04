@@ -3,7 +3,7 @@ import 'daisyui/dist/full.css';
 
 const testimonials = [
   {
-    name: 'Murray N.',
+    name: 'Higs S.',
     role: 'CEO',
     text: "I've saved thousands of dollars using NachoNacho. I tell all my friends to use it for both personal and company use. This is such an easy way to make / save money!",
   },
