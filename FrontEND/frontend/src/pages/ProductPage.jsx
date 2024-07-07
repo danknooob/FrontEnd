@@ -30,7 +30,7 @@ const ProductPage = () => {
       }
     };
     fetchListing();
-    window.scrollTo(0, 0); // Scroll to the top when component mounts
+    window.scrollTo(0, 0);
   }, [listingId]);
 
   if (loading) {
@@ -40,8 +40,6 @@ const ProductPage = () => {
   if (error) {
     return <div>Error: Something went wrong</div>;
   }
-
-  // Render product details using listing data
   return (
     <>
       <div className="min-h-screen flex flex-col mt-12 py-15">
@@ -176,7 +174,7 @@ const ProductPage = () => {
                         <div className="flex items-center mb-2">
                           <img
                             src={provider.imageUrl}
-                            alt={provider.name}
+                            // alt={provider.name}
                             className="w-12 h-12 rounded-full"
                           />
                           <h3 className="text-xl font-bold ml-4">

@@ -278,3 +278,24 @@ export const getListings = async(req, res, next) => {
         next(error);
     }
 };
+
+export const getAllProducts = async(req, res, next) => {
+    try {
+        const products = await Listing.find({});
+        res.status(200).json(products);
+    } catch (error) {
+        next(error);
+    }
+}
+export const getProductByCategory = async(req, res, next) => {
+    try {
+        const category = req.params.category;
+        const products = await Listing.find({ category });
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'No products found in this category!' });
+        }
+        res.status(200).json(products);
+    } catch (error) {
+        next(error);
+    }
+};
