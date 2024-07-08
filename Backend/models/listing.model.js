@@ -202,7 +202,7 @@ const listingSchema = new Schema({
         required: true,
     },
     imageUrls: {
-        type: [String],
+        type: Array,
         required: true,
     },
     userRef: {
@@ -215,7 +215,10 @@ const listingSchema = new Schema({
     },
     serviceProviders: [{
         name: { type: String, required: true },
-        imageUrl: { type: String, required: true },
+        imageUrls: {
+            type: Array,
+            required: true
+        },
         services: [{ type: String }],
         description: { type: String, required: true },
         link: { type: String, required: true },
@@ -239,7 +242,7 @@ const listingSchema = new Schema({
         required: true,
     },
     category: {
-        type: String,
+        type: [String],
         required: true,
         trim: true,
         enum: [
@@ -300,11 +303,11 @@ const listingSchema = new Schema({
     // }],
     version: {
         type: String,
-        required: true,
+        // required: true,
     },
     platforms: [{
         type: String,
-        required: true,
+        // required: true,
         enum: ["Web", "iOS", "Android"]
     }],
     // requirements: {
@@ -312,7 +315,7 @@ const listingSchema = new Schema({
     // },
     integrations: [{
         type: String,
-        required: true,
+        // required: true,
     }],
     // provider_information: {
     //     provider_id: {
@@ -330,16 +333,28 @@ const listingSchema = new Schema({
     //     }
     // },
     legal: {
-        termsOfService: { type: String, required: true },
-        privacyPolicy: { type: String, required: true }
+        termsOfService: {
+            type: String,
+            //  required: true 
+        },
+        privacyPolicy: {
+            type: String,
+            //  required: true 
+        }
     },
     // media: {
     //     images: [{ type: String }],
     //     videos: [{ type: String }]
     // },
     availability: {
-        status: { type: String, required: true },
-        releaseDate: { type: Date, required: true }
+        status: {
+            type: String,
+            // required: true
+        },
+        releaseDate: {
+            type: Date,
+            // required: true 
+        }
     }
 }, { timestamps: true });
 

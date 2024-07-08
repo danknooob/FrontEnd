@@ -1,5 +1,5 @@
 import express from 'express';
-import { createListing, deleteListing, updateListing, getListing, getListings, getAllProducts, getProductByCategory } from '../controllers/listing.controller.js';
+import { createListing, deleteListing, updateListing, getListing, getListings } from '../controllers/listing.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
 const router = express.Router();
@@ -12,8 +12,8 @@ console.log("hello there");
 router.get('/get/:id', getListing);
 console.log("new consolelog");
 router.get('/get', getListings);
-router.get("/getallproducts", getAllProducts);
-router.get("/:category", getProductByCategory);
+// router.get("/getallproducts", getAllProducts);
+// router.get("/:category", getProductByCategory);
 
 
 

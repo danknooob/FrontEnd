@@ -16,6 +16,7 @@ const ProductPage = () => {
         setLoading(true);
         const res = await fetch(`/api/listing/get/${listingId}`);
         const data = await res.json();
+        console.log(data);
         if (data.success === false) {
           setError(true);
           setLoading(false);

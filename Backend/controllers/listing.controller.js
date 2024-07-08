@@ -163,25 +163,14 @@ export const updateListing = async(req, res, next) => {
 };
 console.log("hey listing");
 export const getListing = async(req, res, next) => {
-    console.log("Route accessed");
     try {
-        const listingId = req.params.id;
-        console.log("Listing ID:", listingId);
-        if (!mongoose.Types.ObjectId.isValid(listingId)) {
-            console.error('Invalid listing ID format');
-            return next(errorHandler(400, 'Invalid listing ID format'));
-        }
-
-        const listing = await Listing.findById(listingId);
+        const listing = await Listing.findById(req.params.id);
         if (!listing) {
-            console.error('Listing not found');
             return next(errorHandler(404, 'Listing not found!'));
         }
-
-        console.log('Listing found:', listing);
+        console.log(listing)
         res.status(200).json(listing);
     } catch (error) {
-        console.error('Error fetching listing:', error);
         next(error);
     }
 };
@@ -279,23 +268,23 @@ export const getListings = async(req, res, next) => {
     }
 };
 
-export const getAllProducts = async(req, res, next) => {
-    try {
-        const products = await Listing.find({});
-        res.status(200).json(products);
-    } catch (error) {
-        next(error);
-    }
-}
-export const getProductByCategory = async(req, res, next) => {
-    try {
-        const category = req.params.category;
-        const products = await Listing.find({ category });
-        if (products.length === 0) {
-            return res.status(404).json({ message: 'No products found in this category!' });
-        }
-        res.status(200).json(products);
-    } catch (error) {
-        next(error);
-    }
-};
+// export const getAllProducts = async(req, res, next) => {
+//     try {
+//         const products = await Listing.find({});
+//         res.status(200).json(products);
+//     } catch (error) {
+//         next(error);
+//     }
+// }
+// export const getProductByCategory = async(req, res, next) => {
+//     try {
+//         const category = req.params.category;
+//         const products = await Listing.find({ category });
+//         if (products.length === 0) {
+//             return res.status(404).json({ message: 'No products found in this category!' });
+//         }
+//         res.status(200).json(products);
+//     } catch (error) {
+//         next(error);
+//     }
+// };
