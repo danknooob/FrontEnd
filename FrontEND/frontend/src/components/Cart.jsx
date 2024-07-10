@@ -91,46 +91,46 @@ const Cart = () => {
     return (
         <div className="flex h-screen">
             <SideBar />
-            <div className="flex-1 container mx-auto p-4 overflow-y-auto h-full">
-                <h1 className="text-3xl font-bold mb-4 text-gray-800 py-5">My Cart</h1>
+            <div className="flex-1 container mx-auto p-8 overflow-y-auto h-full">
+                <h1 className="text-3xl font-bold mb-6 text-gray-900">My Cart</h1>
                 <div className="mt-4 text-right">
-                    <h2 className="text-2xl font-bold text-gray-800">Total: ${totalAmount.toFixed(2)}</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">Total: ${totalAmount.toFixed(2)}</h2>
                     <Link to="/checkout">
-                        <button className="btn btn-outline btn-blue-500 text-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600">
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
                             Checkout
                         </button>
                     </Link>
                 </div>
-                <ul className="divide-y divide-gray-200">
+                <ul className="divide-y-4 divide-gray-300 bg-gray-100 mt-6 p-4 rounded-lg shadow-lg">
                     {cartItems.map(item => (
-                        <li key={item.id} className="py-4 flex">
+                        <li key={item.id} className="py-4 flex items-center rounded-lg border-2 border-gray-300 mb-4 p-4">
                             <div className="flex-shrink-0">
-                                <img className="h-12 w-12 rounded-lg" src={img1} alt={item.name} />
+                                <img className="h-16 w-16 rounded-lg object-cover" src={img1} alt={item.name} />
                             </div>
-                            <div className="ml-3">
-                                <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-                                <p className="text-gray-800">${item.price.toFixed(2)}</p>
-                                <div className="mt-2 flex">
-                                    <button
-                                        onClick={() => dispatch(subtractItem(item.id))}
-                                        className="btn btn-outline btn-red-500 text-red-500 px-2 py-1 rounded-lg mr-2"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="text-gray-800">{item.quantity}</span>
-                                    <button
-                                        onClick={() => dispatch(addItem(item))}
-                                        className="btn btn-outline btn-green-500 text-green-500 px-2 py-1 rounded-lg ml-2"
-                                    >
-                                        +
-                                    </button>
-                                    <button
-                                        onClick={() => dispatch(deleteItem(item.id))}
-                                        className="btn btn-outline btn-red-700 text-red-700 px-3 py-2 rounded-lg ml-2 flex items-center"
-                                    >
-                                        <FaTrash className="ml-1" />
-                                    </button>
-                                </div>
+                            <div className="ml-4 flex-1">
+                                <h2 className="text-lg font-semibold text-gray-900">{item.name}</h2>
+                                <p className="text-gray-700">${item.price.toFixed(2)}</p>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <button
+                                    onClick={() => dispatch(subtractItem(item.id))}
+                                    className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center"
+                                >
+                                    -
+                                </button>
+                                <span className="text-gray-900 mx-2">{item.quantity}</span>
+                                <button
+                                    onClick={() => dispatch(addItem(item))}
+                                    className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center"
+                                >
+                                    +
+                                </button>
+                                <button
+                                    onClick={() => dispatch(deleteItem(item.id))}
+                                    className="bg-red-700 text-white px-3 py-1 rounded-lg hover:bg-red-800 transition duration-300 flex items-center justify-center"
+                                >
+                                    <FaTrash />
+                                </button>
                             </div>
                         </li>
                     ))}
@@ -141,4 +141,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

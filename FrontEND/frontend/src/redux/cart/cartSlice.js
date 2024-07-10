@@ -24,6 +24,7 @@ const initialState = {
         },
     ],
     totalAmount: 10.0 + 15.0 * 2 + 20.0,
+    favorites: [], // New state for favorites
 };
 
 const cartSlice = createSlice({
@@ -60,8 +61,16 @@ const cartSlice = createSlice({
                 state.items = state.items.filter(item => item.id !== id);
             }
         },
+        addToFavorites: (state, action) => {
+            const newItem = action.payload;
+            state.favorites.push(newItem);
+        },
+        removeFromFavorites: (state, action) => {
+            const id = action.payload;
+            state.favorites = state.favorites.filter(item => item.id !== id);
+        },
     },
 });
 
-export const { addItem, subtractItem, deleteItem } = cartSlice.actions;
+export const { addItem, subtractItem, deleteItem, addToFavorites, removeFromFavorites } = cartSlice.actions;
 export default cartSlice.reducer;

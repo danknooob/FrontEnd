@@ -52,6 +52,7 @@ export default function App() {
         <Route path='/serviceprovider' element={<CreateServiceProvider/>} />
         <Route path="/marketplace/:category" element={<ProductList/>} />
         <Route path="/mycomponent" element={<MyComponent/>} />
+        {/* <Route path="/cart" element={<Cart/>} /> */}
 
       </Routes>
     </BrowserRouter>
