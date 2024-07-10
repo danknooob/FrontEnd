@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -24,15 +26,31 @@ const userSchema = new mongoose.Schema({
         default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     },
     products: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        productId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product',
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            default: 1,
+        }
     }],
     cart: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        listingId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Listing',
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            default: 0,
+        }
     }],
     favorites: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Product',
     }],
 }, { timestamps: true });

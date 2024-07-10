@@ -233,7 +233,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [listing, setListing] = useState(null);
-  const [cartQuantity, setCartQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [userId, setUserId] = useState(null); // State to hold userId
   const params = useParams();
 
@@ -248,12 +248,12 @@ const Listing = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // Important for including cookies
+          credentials: 'include',
         });
         const data = await res.json();
         console.log(data)
         if (data.userId) {
-          setUserId(data.userId); // Set userId state if fetched successfully
+          setUserId(data.userId); 
         }
       } catch (error) {
         console.error('Error fetching signed-in user ID:', error);
@@ -288,18 +288,19 @@ const Listing = () => {
 
   const addToCart = async () => {
     try {
+      console.log(quantity)
       const res = await fetch('/api/cart/add-to-cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: userId, listingId: params.listingId }), 
+        body: JSON.stringify({ userId, listingId: params.listingId, quantity }), 
       });
       const data = await res.json();
-      console.log(data);
-      if (data.message) {
+      console.log(data)
+      if (data.message==="added to cart") {
         toast.success('Added to cart');
-        setCartQuantity(cartQuantity + 1);
+        setQuantity(quantity+1);
       } else {
         toast.error('Failed to add to cart');
       }
@@ -316,12 +317,12 @@ const Listing = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: userId, listingId: params.listingId }), // Use userId here
+        body: JSON.stringify({ userId, listingId: params.listingId, quantity}), 
       });
       const data = await res.json();
-      if (data.message) {
+      if (data.message==="removed from cart") {
         toast.success('Removed from cart');
-        setCartQuantity(cartQuantity > 0 ? cartQuantity - 1 : 0);
+        setQuantity(quantity > 0 ? quantity - 1 : 0);
       } else {
         toast.error('Failed to remove from cart');
       }
@@ -368,7 +369,7 @@ const Listing = () => {
                       >
                         <FaCartPlus />
                       </button>
-                      {cartQuantity > 0 && (
+                      {quantity > 0 && (
                         <div className="flex items-center ml-2">
                           <button
                             onClick={removeFromCart}
@@ -376,7 +377,7 @@ const Listing = () => {
                           >
                             <FaCartArrowDown />
                           </button>
-                          <span className="ml-2 text-lg">{cartQuantity}</span>
+                          <span className="ml-2 text-lg">{quantity}</span>
                         </div>
                       )}
                     </div>
