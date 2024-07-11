@@ -23,6 +23,7 @@ import Cart from './components/Cart';
 import CreateServiceProvider from './components/CreateServiceProvider';
 import ProductList from './components/ProductList';
 import MyComponent from './components/MyComponent';
+import BuyNow from './pages/BuyNow';
 
 
 export default function App() {
@@ -52,7 +53,8 @@ export default function App() {
         <Route path='/serviceprovider' element={<CreateServiceProvider/>} />
         <Route path="/marketplace/:category" element={<ProductList/>} />
         <Route path="/mycomponent" element={<MyComponent/>} />
-        {/* <Route path="/cart" element={<Cart/>} /> */}
+        <Route path="/buy" element={<BuyNow/>} />
+        
 
       </Routes>
     </BrowserRouter>

@@ -22,6 +22,7 @@ const Cart = () => {
                     credentials: 'include',
                 });
                 const data = await res.json();
+                console.log(data)
                 if (data.userId) {
                     setUserId(data.userId);
                 }
@@ -43,6 +44,7 @@ const Cart = () => {
                     throw new Error('Failed to fetch cart items');
                 }
                 const data = await response.json();
+                console.log(data)
                 dispatch(setCartItems(data));
             } catch (error) {
                 console.error('Failed to fetch cart items:', error);
@@ -52,8 +54,71 @@ const Cart = () => {
         fetchCartItems();
     }, [dispatch, userId]);
 
+    const handleAddToCart = async (item) => {
+        try {
+            const response = await fetch('/api/cart/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ userId, listingId: item.listingId, quantity: 1 }),
+            });
+
+            if (response.ok) {
+                dispatch(addItem(item));
+            } else {
+                console.error('Failed to add item to cart');
+            }
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+        }
+    };
+
+    const handleRemoveFromCart = async (item) => {
+        try {
+            const response = await fetch('/api/cart/remove-from-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ userId, listingId: item.listingId, quantity: 1 }),
+            });
+
+            if (response.ok) {
+                dispatch(subtractItem(item.listingId));
+            } else {
+                console.error('Failed to remove item from cart');
+            }
+        } catch (error) {
+            console.error('Error removing item from cart:', error);
+        }
+    };
+
+    const handleDeleteItem = async (listingId) => {
+        try {
+            const response = await fetch('/api/cart/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ listingId, userId }),
+            });
+
+            if (response.ok) {
+                dispatch(deleteItem(listingId));
+            } else {
+                console.error('Failed to delete item from cart');
+            }
+        } catch (error) {
+            console.error('Error deleting item from cart:', error);
+        }
+    };
+
     if (!userId) {
-        return <div>Loading...</div>; // Placeholder until userId is fetched
+        return <div>Loading...</div>;
     }
 
     return (
@@ -83,20 +148,20 @@ const Cart = () => {
                             </Link>
                             <div className="flex items-center space-x-2">
                                 <button
-                                    onClick={() => dispatch(subtractItem(item.listingId))}
+                                    onClick={() => handleRemoveFromCart(item)}
                                     className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center"
                                 >
                                     -
                                 </button>
                                 <span className="text-gray-900 mx-2">{item.quantity}</span>
                                 <button
-                                    onClick={() => dispatch(addItem(item))}
+                                    onClick={() => handleAddToCart(item)}
                                     className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center"
                                 >
                                     +
                                 </button>
                                 <button
-                                    onClick={() => dispatch(deleteItem(item.listingId))}
+                                    onClick={() => handleDeleteItem(item.listingId)}
                                     className="bg-red-700 text-white px-3 py-1 rounded-lg hover:bg-red-800 transition duration-300 flex items-center justify-center"
                                 >
                                     <FaTrash />

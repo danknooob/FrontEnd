@@ -130,3 +130,132 @@ export const getCart = async(req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const deleteCartItem = async(req, res) => {
+    try {
+        const { listingId, userId } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Remove the listing from the cart
+        user.cart = user.cart.filter(item => !item.listingId.equals(listingId));
+
+        await user.save();
+
+        res.send({
+            message: "Listing removed from cart"
+        });
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+        res.status(500).json({ message: 'Failed to remove from cart' });
+    }
+};
+export const buyProduct = async(req, res) => {
+    try {
+        const { listingId, userId, quantity } = req.body;
+
+        // Validate the listing ID
+        const listing = await Listing.findById(listingId);
+        if (!listing) {
+            return res.status(404).json({ message: 'Listing not found' });
+        }
+
+        // Update user's products array
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the listing is already in user's products
+        const productIndex = user.products.findIndex(item => item.listingId.equals(listingId));
+
+        if (productIndex !== -1) {
+            // If listing already exists in products, update quantity
+            user.products[productIndex].quantity += quantity;
+        } else {
+            // If listing does not exist in products, add it
+            user.products.push({ listingId: listingId, quantity: quantity });
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: 'Product purchased successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const buyCart = async(req, res) => {
+    try {
+        const { userId } = req.body;
+
+        // Fetch user with populated cart
+        const user = await User.findById(userId).populate('cart.listingId');
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Loop through user's cart and process each item
+        for (let item of user.cart) {
+            const listingId = item.listingId._id;
+            const quantity = item.quantity;
+
+            // Validate the listing ID
+            const listing = await Listing.findById(listingId);
+            if (!listing) {
+                return res.status(404).json({ message: `Listing with ID ${listingId} not found` });
+            }
+
+            // Update user's products array with cart items
+            const productIndex = user.products.findIndex(prod => prod.listingId.equals(listingId));
+
+            if (productIndex !== -1) {
+                // If listing already exists in products, update quantity
+                user.products[productIndex].quantity += quantity;
+            } else {
+                // If listing does not exist in products, add it
+                user.products.push({ listingId: listingId, quantity: quantity });
+            }
+        }
+
+        // Clear user's cart after purchasing
+        user.cart = [];
+
+        await user.save();
+
+        res.status(200).json({ message: 'Cart purchased successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+export const getPurchasedProducts = async(req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        // Find the user and populate the products
+        const user = await User.findById(userId).populate({
+            path: 'products.listingId',
+            select: 'name discountPrice imageUrls',
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Extract relevant information from user's products
+        const purchasedProducts = user.products.map(item => ({
+            listingId: item.listingId._id,
+            name: item.listingId.name,
+            quantity: item.quantity,
+            discountPrice: item.listingId.discountPrice,
+            imageUrls: item.listingId.imageUrls,
+        }));
+
+        res.status(200).json(purchasedProducts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
