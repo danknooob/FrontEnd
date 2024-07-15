@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ImageIntro from './intro/ImageIntro';
-import LandingPage from './pages/LandingPage';
-import ProductPage from './pages/ProductPage';
-import SignIn from './pages/SignIn'; // Import SignIn component
-import SignUp from './pages/SignUp'; // Import SignUp component
+import LandingPage from './pages/LandingPage.jsx';
+import ProductPage from './pages/ProductPage.jsx';
+import SignIn from './pages/SignIn.jsx'; // Import SignIn component
+import SignUp from './pages/SignUp.jsx'; // Import SignUp component
 // import Footer from './components/Footer';
-import Dashboard from './components/Dashboard'
+// import Dashboard from './components/Dashboard'
 import SideBar from './components/SideBar';
 import About from './pages/About';
 import Profile from './pages/Profile';
@@ -23,13 +23,11 @@ import Cart from './components/Cart';
 import CreateServiceProvider from './components/CreateServiceProvider';
 import ProductList from './components/ProductList';
 import MyComponent from './components/MyComponent';
-import BuyNow from './pages/BuyNow';
-import Graphs from './components/Graphs';
-import FAQ from './components/FAQ';
-
 
 
 export default function App() {
+  const categories = ["Saas", "Security", "Marketing"]; // Replace with your categories
+
   return (
     <BrowserRouter>
       <Routes>
@@ -38,7 +36,7 @@ export default function App() {
         <Route path='/productpage' element={<ProductPage />} />
         <Route path='/sign-in' element={<SignIn />} /> {/* Route to SignIn component */}
         <Route path='/sign-up' element={<SignUp />} /> {/* Route to SignUp component */}
-        <Route path='/dashboard' element={<Dashboard/>}/>
+        {/* <Route path='/dashboard' element={<Dashboard/>}/> */}
         <Route path='/sidebar' element={<SideBar/>}/>
         <Route path='/search' element={<Search />} />
         <Route path='/about' element={<About/>}/>
@@ -56,11 +54,7 @@ export default function App() {
         <Route path='/serviceprovider' element={<CreateServiceProvider/>} />
         <Route path="/marketplace/:category" element={<ProductList/>} />
         <Route path="/mycomponent" element={<MyComponent/>} />
-        <Route path="/buy" element={<BuyNow/>} />
-        <Route path="/graphs" element={<Graphs/>} />
-        <Route path="/faq" element={<FAQ/>} />
-        
-        
+        {/* <Route path="/cart" element={<Cart/>} /> */}
 
       </Routes>
     </BrowserRouter>

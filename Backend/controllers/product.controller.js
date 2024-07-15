@@ -61,6 +61,21 @@ export const getProduct = async(req, res, next) => {
     }
 };
 
+export const getProductByCategory = async(req, res, next) => {
+    try {
+        const category = req.params.category
+        const product = await Product.find({
+            category
+        });
+        if (!product) {
+            return next(errorHandler(404, 'Product not found!'));
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const getProducts = async(req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 12;
@@ -85,3 +100,11 @@ export const getProducts = async(req, res, next) => {
         next(error);
     }
 };
+export const getAllProducts = async (req,res,next) => {
+    try {
+        const products = await Product.find({});
+        res.status(200).json(products);
+    } catch (error) {
+        next(error);
+    }
+}
