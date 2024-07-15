@@ -10,6 +10,7 @@ const Cart = () => {
     const cartItems = useSelector((state) => state.cart.items);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
     const [userId, setUserId] = useState(null);
+    const [purchaseMessage, setPurchaseMessage] = useState('');
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -22,7 +23,6 @@ const Cart = () => {
                     credentials: 'include',
                 });
                 const data = await res.json();
-                console.log(data)
                 if (data.userId) {
                     setUserId(data.userId);
                 }
@@ -44,7 +44,6 @@ const Cart = () => {
                     throw new Error('Failed to fetch cart items');
                 }
                 const data = await response.json();
-                console.log(data)
                 dispatch(setCartItems(data));
             } catch (error) {
                 console.error('Failed to fetch cart items:', error);
@@ -117,6 +116,50 @@ const Cart = () => {
         }
     };
 
+    const handleBuyNow = async (item) => {
+        try {
+            const response = await fetch('/api/cart/buyProduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ userId, listingId: item.listingId, quantity: item.quantity }),
+            });
+
+            if (response.ok) {
+                dispatch(deleteItem(item.listingId));
+                setPurchaseMessage(`Successfully bought ${item.name}`);
+            } else {
+                console.error('Failed to buy item:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error buying item:', error);
+        }
+    };
+
+    const handleBuyCart = async () => {
+        try {
+            const response = await fetch('/api/cart/buyCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ userId }),
+            });
+
+            if (response.ok) {
+                dispatch(setCartItems([])); // Clear the cart locally
+                setPurchaseMessage('Cart purchased successfully');
+            } else {
+                console.error('Failed to buy cart:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error buying cart:', error);
+        }
+    };
+
     if (!userId) {
         return <div>Loading...</div>;
     }
@@ -126,13 +169,17 @@ const Cart = () => {
             <SideBar />
             <div className="flex-1 container mx-auto p-8 overflow-y-auto h-full">
                 <h1 className="text-3xl font-bold mb-6 text-gray-900">My Cart</h1>
+                {purchaseMessage && (
+                    <div className="bg-green-200 text-green-800 p-2 mb-4 rounded-lg">{purchaseMessage}</div>
+                )}
                 <div className="mt-4 text-right">
                     <h2 className="text-2xl font-bold text-gray-900">Total: ${totalAmount}</h2>
-                    <Link to="/checkout">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
-                            Checkout
-                        </button>
-                    </Link>
+                    <button
+                        onClick={handleBuyCart}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ml-4"
+                    >
+                        Buy Cart
+                    </button>
                 </div>
                 <ul className="divide-y-4 divide-gray-300 bg-gray-100 mt-6 p-4 rounded-lg shadow-lg">
                     {cartItems.map(item => (
@@ -165,6 +212,12 @@ const Cart = () => {
                                     className="bg-red-700 text-white px-3 py-1 rounded-lg hover:bg-red-800 transition duration-300 flex items-center justify-center"
                                 >
                                     <FaTrash />
+                                </button>
+                                <button
+                                    onClick={() => handleBuyNow(item)}
+                                    className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+                                >
+                                    Buy Now
                                 </button>
                             </div>
                         </li>

@@ -40,7 +40,6 @@ export const updateUser = async(req, res, next) => {
         next(error);
     }
 };
-
 // Delete user account
 export const deleteUser = async(req, res, next) => {
     if (req.user.id !== req.params.id) {

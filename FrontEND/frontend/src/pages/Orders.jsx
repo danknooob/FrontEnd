@@ -29,7 +29,10 @@ const Orders = () => {
           const res = await fetch(`/api/cart/getPurchasedProducts/${userId}`);
           const data = await res.json();
           console.log(data)
-          setUserProducts(data);
+
+          // Sort products by purchase date in descending order
+          const sortedProducts = data.sort((a, b) => new Date(b.boughtAt) - new Date(a.boughtAt));
+          setUserProducts(sortedProducts);
         } catch (error) {
           console.error('Failed to fetch user products:', error);
         }
@@ -64,6 +67,7 @@ const Orders = () => {
                   <h2 className="text-lg font-semibold">{product.name}</h2>
                   <p>Quantity: {product.quantity}</p>
                   <p className="text-gray-500">Price: ${product.discountPrice}</p>
+                  <p className="text-gray-500">Bought At: {new Date(product.boughtAt).toLocaleDateString()}</p>
                 </div>
               </div>
               <Link to={`/listing/${product.listingId}`} className="text-blue-500">
