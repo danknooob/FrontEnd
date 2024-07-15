@@ -18,12 +18,11 @@ import {
 } from '../redux/user/userSlice';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/SideBar';
-// import Navbar from '../components/Navbar';
 
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
-  const [file, setFile] = useState(undefined);
+  const [file, setFile] = useState(null);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
@@ -36,6 +35,17 @@ export default function Profile() {
     }
   }, [file]);
 
+  useEffect(() => {
+    // Set the initial formData with current user data
+    if (currentUser) {
+      setFormData({
+        username: currentUser.username,
+        email: currentUser.email,
+        avatar: currentUser.avatar || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+      });
+    }
+  }, [currentUser]);
+
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
@@ -45,8 +55,7 @@ export default function Profile() {
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilePerc(Math.round(progress));
       },
       (error) => {
@@ -54,7 +63,7 @@ export default function Profile() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData((prevData) => ({ ...prevData, photo: downloadURL }));
+          setFormData((prevData) => ({ ...prevData, avatar: downloadURL }));
         });
       }
     );
@@ -76,7 +85,8 @@ export default function Profile() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
+      console.log(data);
+      if (res.status !== 200) {
         dispatch(updateUserFailure(data.message));
         return;
       }
@@ -95,7 +105,7 @@ export default function Profile() {
         method: 'DELETE',
       });
       const data = await res.json();
-      if (data.success === false) {
+      if (res.status !== 200) {
         dispatch(deleteUserFailure(data.message));
         return;
       }
@@ -110,7 +120,7 @@ export default function Profile() {
       dispatch(signOutUserStart());
       const res = await fetch('/api/auth/signout');
       const data = await res.json();
-      if (data.success === false) {
+      if (res.status !== 200) {
         dispatch(deleteUserFailure(data.message));
         return;
       }
@@ -139,7 +149,7 @@ export default function Profile() {
             />
             <img
               onClick={() => fileRef.current.click()}
-              src={formData.photo || currentUser.photo}
+              src={formData.avatar || currentUser.avatar}
               alt='profile'
               className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
             />

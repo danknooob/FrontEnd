@@ -24,6 +24,28 @@ export default function CreateServiceProvider() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const fetchProductThroughWS = async () => {
+    try {
+      const response = await fetch('http://localhost:/5000/scrape')
+      if(!response.ok){
+        throw new Error('Failed to fetch product')
+      }
+      const data = response.json();
+      setFormData(prevState => ({
+        ...prevState,
+        name: data.name || '',
+        description : data.description || '',
+        imageUrl: data.image || '',
+        services: [],
+        link: data.url || ''
+      }))
+    }
+    catch(err){
+      setError('Error occurred while fetching products')
+      console.log(err)
+    }
+  }
+
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length <= 1) {
       setUploading(true);
@@ -130,6 +152,13 @@ a
         <h1 className='text-3xl font-semibold text-center my-7'>Create a Service Provider</h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
           <div className='flex flex-col gap-4 flex-1'>
+            <button
+              type='button'
+              onClick={fetchProduct}
+              className='p-3 bg-blue-500 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
+            >
+              Fetch and Fill Form
+            </button>
             <input
               type='text'
               placeholder='Name'

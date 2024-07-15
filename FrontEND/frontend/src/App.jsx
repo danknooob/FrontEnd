@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ImageIntro from './intro/ImageIntro';
-import LandingPage from './pages/LandingPage';
-import ProductPage from './pages/ProductPage';
-import SignIn from './pages/SignIn'; // Import SignIn component
-import SignUp from './pages/SignUp'; // Import SignUp component
+import LandingPage from './pages/LandingPage.jsx';
+import ProductPage from './pages/ProductPage.jsx';
+import SignIn from './pages/SignIn.jsx'; // Import SignIn component
+import SignUp from './pages/SignUp.jsx'; // Import SignUp component
 // import Footer from './components/Footer';
 // import Dashboard from './components/Dashboard'
 import SideBar from './components/SideBar';
@@ -26,6 +26,8 @@ import MyComponent from './components/MyComponent';
 
 
 export default function App() {
+  const categories = ["Saas", "Security", "Marketing"]; // Replace with your categories
+
   return (
     <BrowserRouter>
       <Routes>

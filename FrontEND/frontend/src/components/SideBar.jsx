@@ -97,7 +97,7 @@ const SideBar = ({ children }) => {
             damping: 10,
           },
         }}
-        className="sidebar bg-gray-800 text-white min-h-screen"
+        className="sidebar bg-gray-800 text-white h-screen"
       >
         <div className="top_section flex items-center justify-between p-4">
           <AnimatePresence>

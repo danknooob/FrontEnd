@@ -331,6 +331,28 @@ const Listing = () => {
       toast.error('Error removing from cart');
     }
   };
+  const buyProduct = async () => {
+    try {
+      const res = await fetch('/api/cart/buyProduct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, listingId: params.listingId, quantity }), 
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.message==="Product purchased successfully") {
+        toast.success('Product purchased successfully');
+        // Optionally, you can redirect to a confirmation page or update UI accordingly
+      } else {
+        toast.error('Failed to purchase product');
+      }
+    } catch (error) {
+      console.error('Error purchasing product:', error);
+      toast.error('Error purchasing product');
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -388,12 +410,10 @@ const Listing = () => {
                       <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center">
                         💎 Premium
                       </span>
-                      <Link
-                        to="/deals"
-                        className="inline-block ml-4 bg-blue-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-blue-700"
-                      >
-                        Redeem Deal
-                      </Link>
+                      <button 
+                      onClick={buyProduct}>
+                        Buy Now
+                      </button>
                     </div>
                     <p className="text-green-700 mt-2 text-lg">
                       Save up to {listing.savings}
