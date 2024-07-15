@@ -4,11 +4,8 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import listingRouter from './routes/listing.route.js';
-import productRouter from './routes/product.route.js';
-// import orderRouter from './routes/order.route.js'
 import cartRouter from './routes/cart.route.js'
 import cookieParser from 'cookie-parser';
-
 
 dotenv.config();
 
@@ -41,17 +38,11 @@ app.listen(8000, () => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
-app.use('/api/products', productRouter);
-// app.use('/api/orders', orderRouter);
 app.use('/api/cart', cartRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
-    // console.error('Error Status Code:', statusCode);
-    // console.error('Error Message:', message);
-    // console.error('Stack Trace:', err.stack);
-    // console.log(req);
     console.log(res);
     return res.status(statusCode).json({
         success: false,

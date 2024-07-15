@@ -130,3 +130,125 @@ export const getCart = async(req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const deleteCartItem = async(req, res) => {
+    try {
+        const { listingId, userId } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Remove the listing from the cart
+        user.cart = user.cart.filter(item => !item.listingId.equals(listingId));
+
+        await user.save();
+
+        res.send({
+            message: "Listing removed from cart"
+        });
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+        res.status(500).json({ message: 'Failed to remove from cart' });
+    }
+};
+// Buy product
+export const buyProduct = async(req, res) => {
+    try {
+        const { listingId, userId, quantity } = req.body;
+        const listing = await Listing.findById(listingId);
+        if (!listing) {
+            return res.status(404).json({ message: 'Listing not found' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const productIndex = user.products.findIndex(item => item.listingId.equals(listingId));
+
+        if (productIndex !== -1) {
+            user.products[productIndex].quantity += quantity;
+            user.products[productIndex].boughtAt = new Date();
+        } else {
+            user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
+        }
+
+        user.cart = user.cart.filter(item => !item.listingId.equals(listingId));
+        await user.save();
+
+        res.status(200).json({ message: 'Product purchased successfully' });
+    } catch (error) {
+        console.error('Error buying product:', error);
+        res.status(500).json({ message: 'Failed to buy product' });
+    }
+};
+
+// Buy cart
+export const buyCart = async(req, res) => {
+    try {
+        const { userId } = req.body;
+        const user = await User.findById(userId).populate('cart.listingId');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        for (let item of user.cart) {
+            const listingId = item.listingId._id;
+            const quantity = item.quantity;
+
+            const listing = await Listing.findById(listingId);
+            if (!listing) {
+                return res.status(404).json({ message: `Listing with ID ${listingId} not found` });
+            }
+
+            const productIndex = user.products.findIndex(prod => prod.listingId.equals(listingId));
+
+            if (productIndex !== -1) {
+                user.products[productIndex].quantity += quantity;
+                user.products[productIndex].boughtAt = new Date();
+            } else {
+                user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
+            }
+        }
+
+        user.cart = [];
+        await user.save();
+
+        res.status(200).json({ message: 'Cart purchased successfully' });
+    } catch (error) {
+        console.error('Error buying cart:', error);
+        res.status(500).json({ message: 'Failed to buy cart' });
+    }
+};
+
+
+// Get purchased products
+export const getPurchasedProducts = async(req, res) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId).populate({
+            path: 'products.listingId',
+            select: 'name discountPrice imageUrls',
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const purchasedProducts = user.products.map(item => ({
+            listingId: item.listingId._id,
+            name: item.listingId.name,
+            quantity: item.quantity,
+            discountPrice: item.listingId.discountPrice,
+            imageUrls: item.listingId.imageUrls,
+            boughtAt: item.boughtAt,
+        }));
+
+        res.status(200).json(purchasedProducts);
+    } catch (error) {
+        console.error('Error getting purchased products:', error);
+        res.status(500).json({ message: 'Failed to get purchased products' });
+    }
+};
