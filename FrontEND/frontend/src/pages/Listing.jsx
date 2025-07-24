@@ -151,7 +151,6 @@ const Listing = () => {
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-5xl">
-<<<<<<< HEAD
             <div>
               <div className="flex items-center justify-center flex-wrap md:flex-nowrap">
                 <img
@@ -173,71 +172,6 @@ const Listing = () => {
                         <button
                           onClick={removeFromCart}
                           className="bg-red-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-red-700"
-=======
-            {listing && (
-              <div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src={listing.imageUrls}
-                    alt="Product"
-                    className="w-48 h-48 mr-4 rounded-full"
-                  />
-                  <div>
-                    <div className="flex items-center">
-                      <h1 className="text-4xl font-bold truncate max-w-lg">{listing.name}</h1>
-                      <button
-                        onClick={addToCart}
-                        className="ml-4 bg-green-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-green-700"
-                      >
-                        <FaCartPlus />
-                      </button>
-                      {quantity > 0 && (
-                        <div className="flex items-center ml-2">
-                          <button
-                            onClick={removeFromCart}
-                            className="bg-red-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-red-700"
-                          >
-                            <FaCartArrowDown />
-                          </button>
-                          <span className="ml-2 text-lg">{quantity}</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <span className="bg-yellow-300 text-yellow-800 text-lg font-semibold mr-2 px-3 py-1 rounded-full">
-                        {listing.cashbackOffer}
-                      </span>
-                      <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center">
-                        💎 Premium
-                      </span>
-                      <button 
-                      onClick={buyProduct}>
-                        Buy Now
-                      </button>
-                    </div>
-                    <p className="text-green-700 mt-2 text-lg">
-                      Save up to {listing.savings}
-                    </p>
-                    <p className="text-gray-700 mt-4 text-lg">
-                      {listing.description}
-                    </p>
-                    <div className="flex items-center mt-4">
-                      <a
-                        href={listing.website}
-                        className="text-blue-600 hover:underline text-lg"
-                      >
-                        Website
-                      </a>
-                      <button className="ml-4 text-blue-600 hover:underline text-lg">
-                        Share
-                      </button>
-                    </div>
-                    <div className="flex items-center mt-4 space-x-3">
-                      {listing.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="bg-gray-200 text-gray-800 text-lg font-semibold px-3 py-1 rounded-full"
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                         >
                           <FaCartArrowDown />
                         </button>
