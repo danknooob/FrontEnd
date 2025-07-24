@@ -156,32 +156,13 @@ export const buyProduct = async(req, res) => {
         if (!listing) {
             return res.status(404).json({ message: 'Listing not found' });
         }
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-<<<<<<< HEAD
         // Add a new entry for each purchase
         user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
-
         // Remove the purchased item from the cart
-=======
-        const productIndex = user.products.findIndex(item => item.listingId.equals(listingId));
-
-        if (productIndex !== -1) {
-            user.products[productIndex].quantity += quantity;
-            user.products[productIndex].boughtAt = new Date();
-        } else {
-            user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
-        }
-
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         user.cart = user.cart.filter(item => !item.listingId.equals(listingId));
         await user.save();
 
@@ -209,25 +190,10 @@ export const buyCart = async(req, res) => {
             if (!listing) {
                 return res.status(404).json({ message: `Listing with ID ${listingId} not found` });
             }
-
-<<<<<<< HEAD
             // Add a new entry for each purchase
             user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
         }
 
-        // Clear the cart after purchase
-=======
-            const productIndex = user.products.findIndex(prod => prod.listingId.equals(listingId));
-
-            if (productIndex !== -1) {
-                user.products[productIndex].quantity += quantity;
-                user.products[productIndex].boughtAt = new Date();
-            } else {
-                user.products.push({ listingId: listingId, quantity: quantity, boughtAt: new Date() });
-            }
-        }
-
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         user.cart = [];
         await user.save();
 
@@ -237,7 +203,6 @@ export const buyCart = async(req, res) => {
         res.status(500).json({ message: 'Failed to buy cart' });
     }
 };
-
 
 // Get purchased products
 export const getPurchasedProducts = async(req, res) => {
@@ -251,11 +216,7 @@ export const getPurchasedProducts = async(req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-<<<<<<< HEAD
         // Map products to include necessary details
-=======
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         const purchasedProducts = user.products.map(item => ({
             listingId: item.listingId._id,
             name: item.listingId.name,
@@ -264,15 +225,10 @@ export const getPurchasedProducts = async(req, res) => {
             imageUrls: item.listingId.imageUrls,
             boughtAt: item.boughtAt,
         }));
-
-<<<<<<< HEAD
         // Sort products by `boughtAt` in descending order
         const sortedProducts = purchasedProducts.sort((a, b) => new Date(b.boughtAt) - new Date(a.boughtAt));
 
         res.status(200).json(sortedProducts);
-=======
-        res.status(200).json(purchasedProducts);
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
     } catch (error) {
         console.error('Error getting purchased products:', error);
         res.status(500).json({ message: 'Failed to get purchased products' });

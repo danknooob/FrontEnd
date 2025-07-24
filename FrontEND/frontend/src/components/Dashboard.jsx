@@ -11,10 +11,7 @@ const Dashboard = () => {
   const [userAvatar, setUserAvatar] = useState('');
   const [purchasedProducts, setPurchasedProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
-<<<<<<< HEAD
   const[seller,setSeller]=useState(false)
-=======
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,18 +23,11 @@ const Dashboard = () => {
         setUserId(userId);
 
         // Fetch user details (name and avatar)
-<<<<<<< HEAD
         const userResponse = await fetch(`/api/user/${userId}`); 
         const userData = await userResponse.json();
         setUserName(userData.username);
         setUserAvatar(userData.avatar);
         setSeller(userData.isSeller);
-=======
-        const userResponse = await fetch(`/api/user/${userId}`); // Adjust endpoint as per your backend
-        const userData = await userResponse.json();
-        setUserName(userData.username);
-        setUserAvatar(userData.avatar);
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 
         // Fetch purchased products
         const purchasedResponse = await fetch(`/api/cart/getPurchasedProducts/${userId}`);
@@ -56,7 +46,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-<<<<<<< HEAD
   // Find most purchased products
   let mostPurchased = [];
   if (purchasedProducts.length > 0) {
@@ -82,18 +71,6 @@ const Dashboard = () => {
             <div>
               <h1 className="text-3xl font-bold">{userName}</h1>
               <p className="text-gray-600">Welcome to your {seller ? 'Seller' : 'Buyer'} dashboard!</p>
-=======
-  return (
-    <div className="flex">
-      <Sidebar />
-      <div className="ml-20 mr-8 p-8 w-full"> {/* Adjusted ml-20 and added mr-8 for left margin and right margin */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center">
-            <img src={userAvatar} alt="User Avatar" className="h-12 w-12 rounded-full object-cover mr-4" />
-            <div>
-              <h1 className="text-3xl font-bold">{userName}</h1>
-              <p className="text-gray-600">Welcome to your dashboard!</p>
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             </div>
           </div>
           <Link to="/profile">
@@ -102,18 +79,13 @@ const Dashboard = () => {
         </div>
 
         {/* Section: Graphs */}
-<<<<<<< HEAD
         <div >
-=======
-        <div className="mb-12">
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
           <Graphs />
         </div>
 
         {/* Horizontal dotted line */}
         <hr className="border-t-2 border-black my-8 mx-2" />
 
-<<<<<<< HEAD
         {/* Section: Most Purchased Products */}
         {mostPurchased.length > 0 && (
           <>
@@ -143,18 +115,11 @@ const Dashboard = () => {
           </>
         )}
 
-=======
-        
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         {/* Section: Purchased Products */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Your Purchased Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<<<<<<< HEAD
             {purchasedProducts.map((product) => (
-=======
-            {purchasedProducts.map(product => (
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
               <motion.div
                 key={product._id}
                 className="bg-white rounded-lg shadow-md p-4"
@@ -177,19 +142,11 @@ const Dashboard = () => {
         {/* Horizontal dotted line */}
         <hr className="border-t-2 border-black my-8 mx-2" />
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         {/* Section: Cart Products */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<<<<<<< HEAD
             {cartProducts.map((product) => (
-=======
-            {cartProducts.map(product => (
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
               <motion.div
                 key={product._id}
                 className="bg-white rounded-lg shadow-md p-4"
