@@ -87,7 +87,7 @@ export const getUser = async(req, res, next) => {
 
 // Sign up new user
 export const signup = async(req, res, next) => {
-    const { name, username, email, password, confirmPassword } = req.body;
+    const { name, username, email, password, confirmPassword, isSeller } = req.body;
 
     if (!password) {
         return next(errorHandler(400, 'Password must not be empty!'));
@@ -99,7 +99,7 @@ export const signup = async(req, res, next) => {
 
     try {
         const hashedPassword = bcryptjs.hashSync(password, 10);
-        const newUser = new User({ name, username, email, password: hashedPassword });
+        const newUser = new User({ name, username, email, isSeller, password: hashedPassword });
 
         await newUser.save();
         res.status(201).json('User created successfully!');

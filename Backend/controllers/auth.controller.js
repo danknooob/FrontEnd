@@ -5,7 +5,7 @@ import { errorHandler } from '../utils/error.js';
 import { response } from 'express';
 
 export const signup = async(req, res, next) => {
-    const { name, username, email, password, confirmPassword } = req.body;
+    const { name, username, email, password, confirmPassword, isSeller } = req.body;
 
     if (!password) {
         return next(errorHandler(400, 'Password must not be empty!'));
@@ -16,7 +16,7 @@ export const signup = async(req, res, next) => {
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ name, username, email, password: hashedPassword });
+    const newUser = new User({ name, username, email, isSeller, password: hashedPassword });
 
     try {
         const savedUser = await newUser.save(); // Save the user and get the saved document
@@ -37,7 +37,6 @@ export const signin = async(req, res, next) => {
         const validPassword = bcryptjs.compareSync(password, user.password);
         if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
         userId = user._id;
-
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         const { password: pass, ...userWithoutPassword } = user._doc;
 
@@ -88,31 +87,38 @@ export const signedInUserId = async(req, res, next) => {
 };
 export const google = async(req, res, next) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const { email, name, photo } = req.body;
+
+        // Check if user already exists
+        let user = await User.findOne({ email });
 
         if (user) {
+            // Generate a JWT token for the existing user
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            const { password: pass, ...userWithoutPassword } = user._doc;
+            const { password, ...userWithoutPassword } = user._doc;
 
-            res.cookie('access_token', token)
+            res.cookie('access_token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' })
                 .status(200)
                 .json(userWithoutPassword);
         } else {
-            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
-            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+            // Create a new user if not found
+            const username = name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-4);
+            const hashedPassword = bcryptjs.hashSync('defaultpassword', 10); // Using a default password
 
             const newUser = new User({
-                username: req.body.name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-4),
-                email: req.body.email,
-                password: hashedPassword,
-                avatar: req.body.photo,
+                username,
+                email,
+                password: hashedPassword, // Optional: default password
+                avatar: photo,
             });
 
             await newUser.save();
-            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            const { password: pass, ...userWithoutPassword } = newUser._doc;
 
-            res.cookie('access_token', token)
+            // Generate a JWT token for the new user
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const { password, ...userWithoutPassword } = newUser._doc;
+
+            res.cookie('access_token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' })
                 .status(200)
                 .json(userWithoutPassword);
         }

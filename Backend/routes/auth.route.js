@@ -9,5 +9,4 @@ router.post('/google', google);
 router.get('/signout', signOut);
 router.get('/signedinuserid', signedInUserId);
 
-
 export default router;

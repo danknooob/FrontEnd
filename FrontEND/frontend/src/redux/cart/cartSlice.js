@@ -29,7 +29,7 @@ const cartSlice = createSlice({
                 state.totalAmount -= existingItem.discountPrice;
                 if (existingItem.quantity === 0) {
                     state.items = state.items.filter(i => i.listingId !== itemId);
-                }
+                }   
             }
         },
         deleteItem(state, action) {

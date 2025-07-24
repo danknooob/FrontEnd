@@ -10,16 +10,16 @@ function GetStarted() {
   };
 
   return (
-    <>
+      <>
       <Navbar />
-      <div className="min-h-screen flex flex-col justify-between">
-        <div className="container mx-auto p-8 mt-20">
-          <h1 className="text-3xl font-bold mb-4">Get started with NachoNacho</h1>
-          <p className="text-gray-600 mb-8">What type of account are you interested in?</p>
+      <div className="min-h-screen flex flex-col justify-between bg-gray-800">
+        <div className="container mx-auto p-6 md:p-8 mt-16 md:mt-20">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Get started with NachoNacho</h1>
+          <p className="text-gray-400 mb-8">What type of account are you interested in?</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div
-              className={`bg-gray-300 rounded-md p-6 shadow-md cursor-pointer ${
+              className={`bg-gray-700 rounded-md p-6 shadow-md cursor-pointer ${
                 selectedAccount === 'buyer' ? 'border-4 border-blue-800' : ''
               }`}
               onClick={() => handleAccountSelect('buyer')}
@@ -41,10 +41,10 @@ function GetStarted() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-gray-800 font-bold text-xl">Buyer account</h2>
+                <h2 className="text-gray-200 font-bold text-xl md:text-2xl">Buyer account</h2>
               </div>
-              <p className="text-gray-800">
-                For Businesses to manage, discover & get discounts on SaaS and services.
+              <p className="text-gray-400">
+                For businesses to manage, discover & get discounts on SaaS and services.
               </p>
               <button className="bg-white text-blue-800 rounded-md px-4 py-2 mt-4">
                 Get started →
@@ -52,7 +52,7 @@ function GetStarted() {
             </div>
 
             <div
-              className={`bg-gray-300 rounded-md p-6 shadow-md cursor-pointer ${
+              className={`bg-gray-700 rounded-md p-6 shadow-md cursor-pointer ${
                 selectedAccount === 'seller' ? 'border-4 border-blue-800' : ''
               }`}
               onClick={() => handleAccountSelect('seller')}
@@ -74,9 +74,9 @@ function GetStarted() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-gray-800 font-bold text-xl">Seller account</h2>
+                <h2 className="text-gray-200 font-bold text-xl md:text-2xl">Seller account</h2>
               </div>
-              <p className="text-gray-800">
+              <p className="text-gray-400">
                 For SaaS vendors to reach new subscribers at a lower cost.
               </p>
               <button className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4">
@@ -85,7 +85,7 @@ function GetStarted() {
             </div>
 
             <div
-              className={`bg-gray-300 rounded-md p-6 shadow-md cursor-pointer ${
+              className={`bg-gray-700 rounded-md p-6 shadow-md cursor-pointer ${
                 selectedAccount === 'maven' ? 'border-4 border-blue-800' : ''
               }`}
               onClick={() => handleAccountSelect('maven')}
@@ -107,9 +107,9 @@ function GetStarted() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-gray-800 font-bold text-xl">Maven account</h2>
+                <h2 className="text-gray-200 font-bold text-xl md:text-2xl">Maven account</h2>
               </div>
-              <p className="text-gray-800">
+              <p className="text-gray-400">
                 For experts to monetize their knowledge and skills.
               </p>
               <button className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4">
@@ -118,7 +118,7 @@ function GetStarted() {
             </div>
           </div>
         </div>
-        <Footer className="mt-auto" />
+        <Footer />
       </div>
     </>
   );
