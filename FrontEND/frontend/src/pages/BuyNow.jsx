@@ -76,11 +76,7 @@ function BuyNow() {
             </div>
             <button
               type="submit"
-<<<<<<< HEAD
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline w-full"
-=======
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline"
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             >
               Continue to billing information
             </button>

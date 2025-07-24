@@ -111,7 +111,6 @@ const Graphs = () => {
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">Spending Graphs</h1>
-<<<<<<< HEAD
       <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
         <div className="flex-1">
           <h2 className="text-xl font-semibold mb-2">Monthly Spending</h2>
@@ -128,16 +127,6 @@ const Graphs = () => {
               <Line data={yearlyChartData} options={{ maintainAspectRatio: false }} />
             </div>
           </div>
-=======
-      <div className="flex space-x-8">
-        <div className="w-1/2">
-          <h2 className="text-xl font-semibold mb-2">Monthly Spending</h2>
-          <Line data={monthlyChartData} />
-        </div>
-        <div className="w-1/2">
-          <h2 className="text-xl font-semibold mb-2">Yearly Spending</h2>
-          <Line data={yearlyChartData} />
->>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         </div>
       </div>
     </div>
