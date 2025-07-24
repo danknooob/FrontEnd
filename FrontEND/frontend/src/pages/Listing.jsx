@@ -87,28 +87,28 @@ const Listing = () => {
       toast.error('Error removing from cart');
     }
   };
-  const buyProduct = async () => {
-    try {
-      const res = await fetch('/api/cart/buyProduct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, listingId: params.listingId, quantity }), 
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data.message==="Product purchased successfully") {
-        toast.success('Product purchased successfully');
-        // Optionally, you can redirect to a confirmation page or update UI accordingly
-      } else {
-        toast.error('Failed to purchase product');
-      }
-    } catch (error) {
-      console.error('Error purchasing product:', error);
-      toast.error('Error purchasing product');
-    }
-  };
+  // const buyProduct = async () => {
+  //   try {
+  //     const res = await fetch('/api/cart/buyProduct', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ userId, listingId: params.listingId, quantity }), 
+  //     });
+  //     const data = await res.json();
+  //     console.log(data);
+  //     if (data.message==="Product purchased successfully") {
+  //       toast.success('Product purchased successfully');
+  //       // Optionally, you can redirect to a confirmation page or update UI accordingly
+  //     } else {
+  //       toast.error('Failed to purchase product');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error purchasing product:', error);
+  //     toast.error('Error purchasing product');
+  //   }
+  // };
 
   const buyProduct = async () => {
     try {
