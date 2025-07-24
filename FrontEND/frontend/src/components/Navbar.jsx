@@ -9,7 +9,10 @@ const Navbar = () => {
   const [avatar, setAvatar] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [cartItems, setCartItems] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
+<<<<<<< HEAD
   const currentUser = useSelector((state) => state.user.currentUser);
+=======
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 
   const handleSignOut = async () => {
     try {

@@ -12,7 +12,11 @@ const Orders = () => {
       try {
         const res = await fetch('/api/auth/signedinuserid');
         const data = await res.json();
+<<<<<<< HEAD
         console.log('User ID:', data);
+=======
+        console.log(data)
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
         setUserId(data.userId);
       } catch (error) {
         console.error('Failed to fetch user ID:', error);
@@ -28,7 +32,11 @@ const Orders = () => {
         try {
           const res = await fetch(`/api/cart/getPurchasedProducts/${userId}`);
           const data = await res.json();
+<<<<<<< HEAD
           console.log('Fetched User Products:', data);
+=======
+          console.log(data)
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 
           // Sort products by purchase date in descending order
           const sortedProducts = data.sort((a, b) => new Date(b.boughtAt) - new Date(a.boughtAt));
@@ -43,7 +51,11 @@ const Orders = () => {
   }, [userId]);
 
   return (
+<<<<<<< HEAD
     <div className="flex flex-col md:flex-row">
+=======
+    <div className="flex">
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
       <SideBar />
       <motion.div
         className="flex-1 p-5"
@@ -53,6 +65,7 @@ const Orders = () => {
       >
         <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
         {userProducts.length === 0 ? (
+<<<<<<< HEAD
           <p className="text-lg">No orders found.</p>
         ) : (
           userProducts.map((product, index) => (
@@ -66,6 +79,21 @@ const Orders = () => {
                 <div>
                   <h2 className="text-lg font-semibold">{product.name}</h2>
                   <p className="text-gray-500">Quantity: {product.quantity}</p>
+=======
+          <p>No orders found.</p>
+        ) : (
+          userProducts.map((product, index) => (
+            <div key={index} className="border-b border-gray-200 pb-4 mb-4">
+              <div className="flex items-center mb-2">
+                <img
+                  src={product.imageUrls[0]}
+                  alt={product.name}
+                  className="w-16 h-16 object-cover mr-4"
+                />
+                <div>
+                  <h2 className="text-lg font-semibold">{product.name}</h2>
+                  <p>Quantity: {product.quantity}</p>
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                   <p className="text-gray-500">Price: ${product.discountPrice}</p>
                   <p className="text-gray-500">Bought At: {new Date(product.boughtAt).toLocaleDateString()}</p>
                 </div>

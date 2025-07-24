@@ -37,7 +37,11 @@ export default function Profile() {
   }, [file]);
 
   useEffect(() => {
+<<<<<<< HEAD
     console.log(currentUser)
+=======
+    // Set the initial formData with current user data
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
     if (currentUser) {
       setFormData({
         username: currentUser.username,
@@ -86,6 +90,10 @@ export default function Profile() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+<<<<<<< HEAD
+=======
+      console.log(data);
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
       if (res.status !== 200) {
         dispatch(updateUserFailure(data.message));
         return;

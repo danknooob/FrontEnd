@@ -39,6 +39,7 @@ export const MarketPlaceProducts = () => {
     }, [selectedCategory]); // Re-fetch on category change
 
     return (
+<<<<<<< HEAD
         <div className="p-5">
         <div className="text-2xl font-bold mb-4">
           MarketPlace Products
@@ -63,5 +64,27 @@ export const MarketPlaceProducts = () => {
           </div>
         )}
       </div>
+=======
+        <div>
+            <div>
+                MarketPlace products
+            </div>
+            {loading ? (
+                <p>Loading products...</p>
+            ) : error ? (
+                <p>Error: {error}</p>
+            ) : (
+                <ul>
+                    {products.map((product) => (
+                        <div key={product.id}>
+                            <h2>{product.name}</h2>
+                            <p>{product.description}</p>
+                            <img src={product.imageUrl} alt={product.name} />
+                        </div>
+                    ))}
+                </ul>
+            )}
+        </div>
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
     );
 };

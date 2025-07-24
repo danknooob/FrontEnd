@@ -32,6 +32,10 @@ import ChatWidget from './components/ChatBot.jsx';
 
 
 export default function App() {
+<<<<<<< HEAD
+=======
+  const categories = ["Saas", "Security", "Marketing"]; // Replace with your categories
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 
   return (
     <BrowserRouter>

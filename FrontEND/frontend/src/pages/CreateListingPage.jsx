@@ -797,10 +797,21 @@ export default function CreateListing() {
     version: '',
     platforms: [],
     integrations: [],
+<<<<<<< HEAD
     termsOfService:'', 
     privacyPolicy: '' ,
     status: '', 
     releaseDate: '' ,
+=======
+    legal: { 
+      termsOfService:'', 
+      privacyPolicy: '' 
+    },
+    availability: { 
+      status: '', 
+      releaseDate: '' 
+    },
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
     serviceProviders: [
       {
         name: '',
@@ -1182,11 +1193,18 @@ export default function CreateListing() {
 
             <div className="mb-4">
                 <label className="block mb-2">Terms of Service</label>
+<<<<<<< HEAD
                 {/* console.log(formData.legal.termsOfService) */}
                 <input
                     type="text"
                     name="termsOfService"
                     value={formData.termsOfService}
+=======
+                <input
+                    type="text"
+                    name="legal.termsOfService"
+                    value={formData.legal.termsOfService}
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                     onChange={handleChange}
                     className="w-full p-2 bg-gray-700 rounded"
                     required
@@ -1197,8 +1215,13 @@ export default function CreateListing() {
                 <label className="block mb-2">Privacy Policy</label>
                 <input
                     type="text"
+<<<<<<< HEAD
                     name="privacyPolicy"
                     value={formData.privacyPolicy}
+=======
+                    name="legal.privacyPolicy"
+                    value={formData.legal.privacyPolicy}
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                     onChange={handleChange}
                     className="w-full p-2 bg-gray-700 rounded"
                     required
@@ -1209,8 +1232,13 @@ export default function CreateListing() {
                 <label className="block mb-2">Availability Status</label>
                 <input
                     type="text"
+<<<<<<< HEAD
                     name="status"
                     value={formData.status}
+=======
+                    name="availability.status"
+                    value={formData.availability.status}
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                     onChange={handleChange}
                     className="w-full p-2 bg-gray-700 rounded"
                     required
@@ -1221,8 +1249,13 @@ export default function CreateListing() {
                 <label className="block mb-2">Release Date</label>
                 <input
                     type="date"
+<<<<<<< HEAD
                     name="releaseDate"
                     value={formData.releaseDate}
+=======
+                    name="availability.releaseDate"
+                    value={formData.availability.releaseDate}
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                     onChange={handleChange}
                     className="w-full p-2 bg-gray-700 rounded"
                     required

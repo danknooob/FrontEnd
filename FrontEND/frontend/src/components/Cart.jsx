@@ -53,6 +53,7 @@ const Cart = () => {
         fetchCartItems();
     }, [dispatch, userId]);
 
+<<<<<<< HEAD
     // Helper to refetch cart
     const refetchCart = async () => {
         if (!userId) return;
@@ -66,6 +67,8 @@ const Cart = () => {
         }
     };
 
+=======
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
     const handleAddToCart = async (item) => {
         try {
             const response = await fetch('/api/cart/add-to-cart', {
@@ -78,8 +81,12 @@ const Cart = () => {
             });
 
             if (response.ok) {
+<<<<<<< HEAD
                 // dispatch(addItem(item));
                 refetchCart();
+=======
+                dispatch(addItem(item));
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             } else {
                 console.error('Failed to add item to cart');
             }
@@ -100,8 +107,12 @@ const Cart = () => {
             });
 
             if (response.ok) {
+<<<<<<< HEAD
                 // dispatch(subtractItem(item.listingId));
                 refetchCart();
+=======
+                dispatch(subtractItem(item.listingId));
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             } else {
                 console.error('Failed to remove item from cart');
             }
@@ -122,8 +133,12 @@ const Cart = () => {
             });
 
             if (response.ok) {
+<<<<<<< HEAD
                 // dispatch(deleteItem(listingId));
                 refetchCart();
+=======
+                dispatch(deleteItem(listingId));
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             } else {
                 console.error('Failed to delete item from cart');
             }
@@ -181,6 +196,7 @@ const Cart = () => {
     }
 
     return (
+<<<<<<< HEAD
         <div className="flex flex-col lg:flex-row h-screen">
     <SideBar />
     <div className="flex-1 container mx-auto p-4 md:p-8 overflow-y-auto h-full">
@@ -199,6 +215,20 @@ const Cart = () => {
                     <button
                         onClick={handleBuyCart}
                         className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ml-4"
+=======
+        <div className="flex h-screen">
+            <SideBar />
+            <div className="flex-1 container mx-auto p-8 overflow-y-auto h-full">
+                <h1 className="text-3xl font-bold mb-6 text-gray-900">My Cart</h1>
+                {purchaseMessage && (
+                    <div className="bg-green-200 text-green-800 p-2 mb-4 rounded-lg">{purchaseMessage}</div>
+                )}
+                <div className="mt-4 text-right">
+                    <h2 className="text-2xl font-bold text-gray-900">Total: ${totalAmount}</h2>
+                    <button
+                        onClick={handleBuyCart}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ml-4"
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
                     >
                         Buy Cart
                     </button>

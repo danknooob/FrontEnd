@@ -4,6 +4,11 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import listingRouter from './routes/listing.route.js';
+<<<<<<< HEAD
+=======
+import productRouter from './routes/product.route.js';
+import marketPlaceRouter from './routes/marketplace.route.js'
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 import cartRouter from './routes/cart.route.js'
 import cookieParser from 'cookie-parser';
 
@@ -38,7 +43,12 @@ app.listen(8000, () => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
+<<<<<<< HEAD
+=======
+app.use('/api/products', productRouter);
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
 app.use('/api/cart', cartRouter);
+app.use('/api/marketplace',marketPlaceRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

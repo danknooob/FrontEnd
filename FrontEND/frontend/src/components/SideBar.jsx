@@ -87,6 +87,7 @@ const SideBar = ({ children }) => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="main-container flex ">
     <motion.div
       initial={false}
@@ -109,6 +110,47 @@ const SideBar = ({ children }) => {
               animate="show"
               exit="hidden"
               className="logo text-xl"
+=======
+    <div className="main-container flex h-screen">
+      <motion.div
+        animate={{
+          width: isOpen ? '200px' : '45px',
+          transition: {
+            duration: 0.5,
+            type: 'spring',
+            damping: 10,
+          },
+        }}
+        className="sidebar bg-gray-800 text-white h-screen"
+      >
+        <div className="top_section flex items-center justify-between p-4">
+          <AnimatePresence>
+            {isOpen && (
+              <motion.h1
+                variants={showAnimation}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="logo text-xl"
+              >
+                <NavLink to="/landingpage" className="text-white">
+                  ByteBazaar
+                </NavLink>
+              </motion.h1>
+            )}
+          </AnimatePresence>
+          <div className="bars cursor-pointer">
+            <FaBars onClick={toggle} className="text-2xl" />
+          </div>
+        </div>
+        <section className="routes">
+          {routes.map((route, index) => (
+            <NavLink
+              to={route.path}
+              key={index}
+              className="link flex items-center p-4 text-gray-400 hover:bg-gray-700 hover:text-white transition-all duration-300"
+              activeClassName="bg-gray-700 text-white"
+>>>>>>> a7109eaebddd701a2344a9c6d23da4e51ffcddf4
             >
               <NavLink to="/landingpage" className="text-white">
                 ByteBazaar
