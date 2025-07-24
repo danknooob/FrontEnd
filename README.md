@@ -1,4 +1,4 @@
-# ByteBazaar Frontend
+# ByteBazaar 
 
 ByteBazaar is a modern SaaS marketplace and business platform that allows users to discover, compare, and deploy leading SaaS solutions with ease. This is the frontend (React + Vite) for ByteBazaar, featuring a beautiful UI, advanced search, authentication (including Google OAuth), and a dynamic dashboard.
 
