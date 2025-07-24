@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-    <ChatWidget/>
+    {/* <ChatWidget/> */}
       <Routes>
         <Route path='/' element={<ImageIntro />} />
         <Route path='/landingpage' element={<LandingPage />} />
@@ -66,7 +66,7 @@ export default function App() {
         <Route path="/navbar" element={<Navbar/>} />
         <Route path="/testimonials" element={<Testimonials/>} />
         <Route path="/buy" element={<BuyNow/>} />
-        <Route path="/chatbot" element={<ChatWidget/>} />
+        {/* <Route path="/chatbot" element={<ChatWidget/>} /> */}
       </Routes>
     </BrowserRouter>
   );

@@ -45,18 +45,16 @@ export const removeFromCart = async(req, res) => {
         }
         const cartItemIndex = user.cart.findIndex(item => item.listingId.equals(listingId));
 
-        if (cartItemIndex !== 0) {
-            // If listing already exists in the cart, update quantity
-            user.cart[cartItemIndex].quantity -= 1;
-        } else if (cartItemIndex === 0) {
-            user.cart = user.cart.filter(item => !item.productId.equals(listingId));
+        if (cartItemIndex !== -1) {
+            user.cart[cartItemIndex].quantity -= (quantity || 1);
+            if (user.cart[cartItemIndex].quantity <= 0) {
+                user.cart.splice(cartItemIndex, 1);
+            }
+            await user.save();
+            return res.send({ message: "removed from cart" });
+        } else {
+            return res.status(404).json({ message: 'Item not found in cart' });
         }
-
-        await user.save();
-
-        res.send({
-            message: "removed from cart"
-        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -37,12 +37,12 @@ const SignUp = () => {
     try {
       setLoading(true);
       const isSeller = formData.userType === 'seller'; // determine if the user is a seller
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, isSeller }), // include isSeller field in the submission
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
       console.log(data);

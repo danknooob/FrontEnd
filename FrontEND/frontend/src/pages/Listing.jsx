@@ -118,6 +118,10 @@ const Listing = () => {
     return null;
   }
 
+  // Use listing.data if present (from ApiResponse)
+  const listingData = listing.data || listing;
+  const truncatedName = listingData.name && listingData.name.length > 10 ? `${listingData.name.substring(0, 10)}...` : listingData.name;
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
@@ -128,13 +132,13 @@ const Listing = () => {
             <div>
               <div className="flex items-center justify-center flex-wrap md:flex-nowrap">
                 <img
-                  src={listing.imageUrls}
+                  src={Array.isArray(listingData.imageUrls) ? (listingData.imageUrls[0] || 'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg') : (listingData.imageUrls || 'https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/Sales_Blog/real-estate-business-compressor.jpg')}
                   alt="Product"
                   className="w-48 h-48 mr-4 rounded-full mb-4 md:mb-0"
                 />
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center mb-2">
-                    <h1 className="text-2xl md:text-4xl font-bold truncate max-w-lg">{listing.name}</h1>
+                    <h1 className="text-2xl md:text-4xl font-bold truncate max-w-lg">{truncatedName}</h1>
                     <button
                       onClick={addToCart}
                       className="ml-4 bg-green-600 text-white px-3 py-1 rounded-full text-lg font-semibold hover:bg-green-700"
@@ -155,7 +159,7 @@ const Listing = () => {
                   </div>
                   <div className="flex items-center mt-2 space-x-2 flex-wrap">
                     <span className="bg-yellow-300 text-yellow-800 text-lg font-semibold px-3 py-1 rounded-full">
-                      {listing.cashbackOffer}
+                      {listingData.cashbackOffer}
                     </span>
                     <span className="bg-purple-600 text-white text-lg font-semibold px-3 py-1 rounded-full flex items-center">
                       💎 Premium
@@ -167,10 +171,10 @@ const Listing = () => {
                       Buy Now
                     </button>
                   </div>
-                  <p className="text-green-700 mt-2 text-lg font-bold">Price: ${listing.regularPrice}</p>
-                  <p className="text-gray-700 mt-2">{listing.description}</p>
-                  <p className="text-gray-600 mt-2">Credit Amount: ${listing.creditAmount}</p>
-                  <p className="text-gray-600 mt-2">Savings Amount: ${listing.savingsAmount}</p>
+                  <p className="text-green-700 mt-2 text-lg font-bold">Price: ${listingData.regularPrice}</p>
+                  <p className="text-gray-700 mt-2">{listingData.description}</p>
+                  <p className="text-gray-600 mt-2">Credit Amount: ${listingData.creditAmount}</p>
+                  <p className="text-gray-600 mt-2">Savings Amount: ${listingData.savingsAmount}</p>
                 </div>
               </div>
               

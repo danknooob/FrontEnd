@@ -20,11 +20,9 @@ const OAuth = () => {
 
       // Prepare user data
       const userData = {
-        name: user.displayName || 'Unnamed User',
-        username: user.email.split('@')[0], // Generate a username from email or provide a default
         email: user.email,
-        avatar: user.photoURL || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-        // Password is not needed for OAuth users, but you need to handle this in your backend
+        name: user.displayName || 'Unnamed User',
+        photo: user.photoURL || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
       };
 
       // Post user data to your backend
@@ -41,6 +39,7 @@ const OAuth = () => {
         dispatch(signInSuccess(data));
         navigate('/landingpage');
       } else {
+        alert(data.message || 'Failed to sign in with Google.');
         console.error('Failed to sign in:', data.message);
       }
     } catch (error) {
